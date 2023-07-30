@@ -6,35 +6,28 @@ data_path = './'
 
 # Hyperparameters
 learning_rate = 0.001
-n_epochs = 3
-num_workers = 1
+n_epochs = 1
+num_workers = 0
 
 
-# batch_sizes = [  128, 
-#                   64,
-#                   32,
-#                   16,
-#                    8,
-#                    4,  ]
-
-# optimizing_batches = [  [  2**0,  ], 
-#                         [  2**0,  2**1,  ],
-#                         [  2**0,  2**1,   2**2,  ], 
-#                         [  2**0,  2**1,   2**2,   2**3,  ], 
-#                         [  2**0,  2**1,   2**2,   2**3,   2**4,  ], 
-#                         [  2**0,  2**1,   2**2,   2**3,   2**4,   2**5,  ],  ]
-
-# optimizer_types = ['SGD', 'ADAM']
-
-batch_sizes = [  128, 
+batch_sizes = [  256,
+                 128, 
                   64,
-                  32,  ]
+                  32,
+                  16,
+                   8,
+                   4,  ]
 
 optimizing_batches = [  [  2**0,  ], 
                         [  2**0,  2**1,  ],
-                        [  2**0,  2**1,   2**2,  ],]
+                        [  2**0,  2**1,  2**2,  ], 
+                        [  2**0,  2**1,  2**2,  2**3,  ], 
+                        [  2**0,  2**1,  2**2,  2**3,  2**4,  ], 
+                        [  2**0,  2**1,  2**2,  2**3,  2**4,  2**5,  ],
+                        [  2**0,  2**1,  2**2,  2**3,  2**4,  2**5,  2**6,  ],  ]
 
-optimizer_types = ['SGD', 'ADAM']
+# optimizer_types = ['SGD', 'ADAM']
+optimizer_types = ['ADAM']
 
 
 # if __name__ == '__main__':
