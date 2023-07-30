@@ -96,7 +96,7 @@ def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes
                             optimizer.step()
                             optimizer.zero_grad()       
                         
-                        if( ((i+1)*batch_size) % 10000 == 0 or (i+1) == len(train_dataloader) ):
+                        if( ( (i*batch_size) % 10000 ) > ( ((i+1)*batch_size) % 10000 ) or (i+1) == len(train_dataloader) ):
                             print("Train Epoch {}/{} Batch {}/{} LR {:.6f} Loss {:.6f} CorPred {}/{} Acc {:.6f}"
                                     .format(    epoch,
                                                 n_epochs-1,
@@ -133,7 +133,7 @@ def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes
                             correct_test += (predicted == labels).sum().cpu().detach().numpy()
                             acc_test = correct_test / total_test
                             
-                            if( ((i+1)*batch_size) % 10000 == 0 or (i+1) == len(test_dataloader) ):
+                            if( ( (i*batch_size) % 10000 ) > ( ((i+1)*batch_size) % 10000 ) or (i+1) == len(test_dataloader) ):
                                 print("Test Epoch {}/{} Batch {}/{} LR {:.6f} CorPred {}/{} Acc {:.6f}"
                                         .format(    epoch,
                                                     n_epochs-1,
