@@ -193,6 +193,6 @@ def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes
                     print("-" * 40)
                 iter_index = iter_index + 1
 
-    
+    return ( train_acc_vec, test_acc_vec, train_time_vec, test_time_vec )
     
     

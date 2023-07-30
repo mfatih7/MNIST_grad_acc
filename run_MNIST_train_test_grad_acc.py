@@ -32,10 +32,14 @@ optimizer_types = ['SGD']
 
 
 if __name__ == '__main__':
-    MNIST_train_test_grad_acc.train_and_test(   data_path,
-                                                learning_rate,
-                                                n_epochs,
-                                                num_workers,
-                                                batch_sizes,
-                                                optimizing_batches,
-                                                optimizer_types)
+    results = MNIST_train_test_grad_acc.train_and_test(  data_path,
+                                                         learning_rate,
+                                                         n_epochs,
+                                                         num_workers,
+                                                         batch_sizes,
+                                                         optimizing_batches,
+                                                         optimizer_types  )    
+    train_acc_vec = results[0]
+    test_acc_vec = results[1]
+    train_time_vec = results[2]
+    test_time_vec = results[3]
