@@ -10,7 +10,7 @@ import time
 
 from models.models import get_model
 
-def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes, optimizing_batches, optimizer_types ):
+def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes, optimizing_batches, optimizer_types, gpu_info, training_queue ):
 
     transform = transforms.Compose([
         transforms.ToTensor(),           # Convert PIL images to tensors
@@ -20,8 +20,7 @@ def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes
     train_dataset = torchvision.datasets.MNIST(    root = data_path,
                                                    train = True,
                                                    download = True, 
-                                                   transform = transform )
-    
+                                                   transform = transform )    
     
     test_dataset = torchvision.datasets.MNIST(     root = data_path,
                                                    train = False,
@@ -78,18 +77,22 @@ def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes
                         # Forward pass
                         outputs = model(images)
                         loss = criterion(outputs, labels)
-                
+                        
+                        loss = loss / optimizing_batch
+                        
                         # Backward and optimize                    
                         loss.backward()
-                        optimizer.step()
-                        optimizer.zero_grad()
                         
                         _, predicted = torch.max(outputs.data, 1)
                         total_train += labels.size(0)
                         correct_train += (predicted == labels).sum().cpu().detach().numpy()
                         acc_train = correct_train / total_train
                         
-                        if( i == 1):
+                        if( (i+1) % optimizing_batch == 0 or (i+1) == len(train_dataloader) ):
+                            optimizer.step()
+                            optimizer.zero_grad()
+                        
+                        if( ( (i*batch_size) % 10000 ) > ( ((i+1)*batch_size) % 10000 ) or (i+1) == len(train_dataloader) ):
                             print("Train Epoch {}/{} Batch {}/{} LR {:.6f} Loss {:.6f} CorPred {}/{} Acc {:.6f}"
                                     .format(    epoch,
                                                 n_epochs-1,
@@ -99,31 +102,7 @@ def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes
                                                 loss.cpu().detach().numpy(),
                                                 correct_train,
                                                 total_train,
-                                                acc_train) )
-                            
-                            print("GPU util: {}" .format( get_gpu_utilization( device, 'cur') ) )
-                            print("GPU util: {}" .format( get_gpu_utilization( device, 'max') ) )
-                            a,b = get_mem_info( device )
-                            print("GPU util: {}/{}" .format( a, b ) )   
-                        
-                    print("Train Epoch {}/{} Batch {}/{} LR {:.6f} Loss {:.6f} CorPred {}/{} Acc {:.6f}"
-                            .format(    epoch,
-                                        n_epochs-1,
-                                        i,
-                                        len(train_dataloader)-1,
-                                        learning_rate,
-                                        loss.cpu().detach().numpy(),
-                                        correct_train,
-                                        total_train,
-                                        acc_train) )
-                    
-                    print("GPU util: {}" .format( get_gpu_utilization( device, 'cur') ) )
-                    print("GPU util: {}" .format( get_gpu_utilization( device, 'max') ) )
-                    a,b = get_mem_info( device )
-                    print("GPU util: {}/{}" .format( a, b ) )           
-                    
-                    # print( torch.cuda.memory_summary() )
-                    
+                                                acc_train) )                 
                     
                     train_acc_vec[iter_index, epoch] = acc_train
                     end_time_train = time.perf_counter()
@@ -150,7 +129,7 @@ def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes
                             correct_test += (predicted == labels).sum().cpu().detach().numpy()
                             acc_test = correct_test / total_test
                             
-                            if( i==1 ):
+                            if( ( (i*batch_size) % 10000 ) > ( ((i+1)*batch_size) % 10000 ) or (i+1) == len(test_dataloader) ):
                                 print("Test Epoch {}/{} Batch {}/{} LR {:.6f} CorPred {}/{} Acc {:.6f}"
                                         .format(    epoch,
                                                     n_epochs-1,
@@ -160,29 +139,7 @@ def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes
                                                     correct_test,
                                                     total_test,
                                                     acc_test) )
-                                
-                                print("GPU util: {}" .format( get_gpu_utilization( device, 'cur') ) )
-                                print("GPU util: {}" .format( get_gpu_utilization( device, 'max') ) )
-                                a,b = get_mem_info( device )
-                                print("GPU util: {}/{}" .format( a, b ) )    
-                            
-                    print("Test Epoch {}/{} Batch {}/{} LR {:.6f} CorPred {}/{} Acc {:.6f}"
-                            .format(    epoch,
-                                        n_epochs-1,
-                                        i,
-                                        len(test_dataloader)-1,
-                                        learning_rate,
-                                        correct_test,
-                                        total_test,
-                                        acc_test) )
-                    
-                    print("GPU util: {}" .format( get_gpu_utilization( device, 'cur') ) )
-                    print("GPU util: {}" .format( get_gpu_utilization( device, 'max') ) )
-                    a,b = get_mem_info( device )
-                    print("GPU util: {}/{}" .format( a, b ) )        
-                    
-                    # print( torch.cuda.memory_summary() )
-                                
+
                     test_acc_vec[iter_index, epoch] = acc_test
                     end_time_test = time.perf_counter()
                     test_time_vec[iter_index, epoch] = end_time_test - start_time_test
@@ -190,6 +147,6 @@ def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes
                     print("-" * 40)
                 iter_index = iter_index + 1
 
-    return ( train_acc_vec, test_acc_vec, train_time_vec, test_time_vec )
+    training_queue.put( (train_acc_vec, test_acc_vec, train_time_vec, test_time_vec ) )
     
     

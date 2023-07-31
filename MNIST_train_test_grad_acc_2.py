@@ -9,9 +9,6 @@ import numpy as np
 import time
 
 from models.models import get_model
-from utils import get_gpu_utilization
-from utils import get_mem_info
-
 
 def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes, optimizing_batches, optimizer_types ):
 
@@ -94,7 +91,7 @@ def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes
                         
                         if( (i+1) % optimizing_batch == 0 or (i+1) == len(train_dataloader) ):
                             optimizer.step()
-                            optimizer.zero_grad()       
+                            optimizer.zero_grad()
                         
                         if( ( (i*batch_size) % 10000 ) > ( ((i+1)*batch_size) % 10000 ) or (i+1) == len(train_dataloader) ):
                             print("Train Epoch {}/{} Batch {}/{} LR {:.6f} Loss {:.6f} CorPred {}/{} Acc {:.6f}"
