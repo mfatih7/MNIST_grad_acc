@@ -3,15 +3,16 @@ import MNIST_train_test_grad_acc_3
 
 import threading
 import queue
-import time
 
 from utils import return_gpu_info 
 
 data_path = './'
+input_size = 28
+input_expand_ratio = 64 # 1, 2, 4, 8, 16, 64
 
 # Hyperparameters
 learning_rate = 0.001
-n_epochs = 5
+n_epochs = 3
 num_workers = 1
 
 
@@ -31,8 +32,8 @@ num_workers = 1
 #                         [  2**0,  2**1,  2**2,  2**3,  2**4,  2**5,  ],
 #                         [  2**0,  2**1,  2**2,  2**3,  2**4,  2**5,  2**6,  ],  ]
 
-batch_sizes = [  256,
-                 128,  ]
+batch_sizes = [  8,
+                 8,  ]
 
 optimizing_batches = [  [  2**0,  ], 
                         [  2**0,  2**1,  ],  ]
@@ -57,6 +58,8 @@ if __name__ == '__main__':
     gpu_thread = threading.Thread( target = get_info, daemon=True, args=(event_start_read_GPU_info, queue_gpu_info,) ) 
     training_thread = threading.Thread( target = MNIST_train_test_grad_acc_3.train_and_test, args=(
                                                                                                         data_path,
+                                                                                                        input_size,
+                                                                                                        input_expand_ratio,
                                                                                                         learning_rate,
                                                                                                         n_epochs,
                                                                                                         num_workers,
@@ -77,7 +80,15 @@ if __name__ == '__main__':
     
     training_results = queue_training_results.get()
 
-    train_acc_vec = training_results[0]
-    test_acc_vec = training_results[1]
-    train_time_vec = training_results[2]
-    test_time_vec = training_results[3]
+    train_acc_vec       = training_results[0]
+    test_acc_vec        = training_results[1]
+    train_time_vec      = training_results[2]
+    test_time_vec       = training_results[3]
+    train_gpu_mem_usage = training_results[4]
+    test_gpu_mem_usage  = training_results[5]
+    train_gpu_util      = training_results[6]
+    test_gpu_util       = training_results[7]
+    device_name         = training_results[8]
+    device_mem_cap      = training_results[9]    
+        
+    

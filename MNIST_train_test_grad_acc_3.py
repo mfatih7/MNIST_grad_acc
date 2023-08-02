@@ -8,11 +8,25 @@ import matplotlib.pyplot as plt
 import numpy as np
 import time
 
+from torchsummary import summary
+
 from models.models import get_model
 
-def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes, optimizing_batches, optimizer_types, event_start_read_GPU_info, queue_gpu_info, queue_training_results, ):
+def train_and_test( data_path,
+                    input_size,
+                    input_expand_ratio,
+                    learning_rate,
+                    n_epochs,
+                    num_workers,
+                    batch_sizes,
+                    optimizing_batches,
+                    optimizer_types,
+                    event_start_read_GPU_info,
+                    queue_gpu_info,
+                    queue_training_results, ):
 
     transform = transforms.Compose([
+        transforms.Resize( [input_size*input_expand_ratio, input_size*input_expand_ratio ] ),
         transforms.ToTensor(),           # Convert PIL images to tensors
         transforms.Normalize((0.5,), (0.5,))   # Normalize the image data to the range [-1, 1]
     ])
@@ -34,6 +48,10 @@ def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes
     test_acc_vec = np.zeros( ( tot_iter, n_epochs ) ) 
     train_time_vec = np.zeros( ( tot_iter, n_epochs ) ) 
     test_time_vec = np.zeros( ( tot_iter, n_epochs ) ) 
+    train_gpu_mem_usage = np.zeros( ( tot_iter, n_epochs ) ) 
+    test_gpu_mem_usage = np.zeros( ( tot_iter, n_epochs ) )
+    train_gpu_util = np.zeros( ( tot_iter, n_epochs ) ) 
+    test_gpu_util = np.zeros( ( tot_iter, n_epochs ) ) 
     
     iter_index = 0
     for batch_size_idx, batch_size in enumerate(batch_sizes):
@@ -41,8 +59,10 @@ def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes
             for optimizer_type in optimizer_types:
     
                 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-                model = get_model().to(device)
-                criterion = nn.CrossEntropyLoss()            
+                model = get_model( input_expand_ratio ).to(device)
+                criterion = nn.CrossEntropyLoss()          
+                
+                summary(model, (1, input_size*input_expand_ratio, input_size*input_expand_ratio) )
     
                 if(optimizer_type == 'Adam'):
                     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
@@ -129,9 +149,11 @@ def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes
                                                 device_mem_cap,
                                                 gpu_util_max_train, ) )   
                     
-                    train_acc_vec[iter_index, epoch] = acc_train
-                    end_time_train = time.perf_counter()
-                    train_time_vec[iter_index, epoch] = end_time_train - start_time_train
+                    train_acc_vec[iter_index, epoch]        = acc_train
+                    end_time_train                          = time.perf_counter()
+                    train_time_vec[iter_index, epoch]       = end_time_train - start_time_train
+                    train_gpu_mem_usage[iter_index, epoch]  = gpu_mem_usage_max_train
+                    train_gpu_util[iter_index, epoch]       = gpu_util_max_train
                     
                     start_time_test = time.perf_counter()
                     test_dataloader = DataLoader( dataset = test_dataset,
@@ -181,13 +203,24 @@ def train_and_test( data_path, learning_rate, n_epochs, num_workers, batch_sizes
                                                     device_mem_cap,
                                                     gpu_util_max_test, ) )
 
-                    test_acc_vec[iter_index, epoch] = acc_test
-                    end_time_test = time.perf_counter()
-                    test_time_vec[iter_index, epoch] = end_time_test - start_time_test
+                    test_acc_vec[iter_index, epoch]         = acc_test
+                    end_time_test                           = time.perf_counter()
+                    test_time_vec[iter_index, epoch]        = end_time_test - start_time_test
+                    test_gpu_mem_usage[iter_index, epoch]   = gpu_mem_usage_max_test
+                    test_gpu_util[iter_index, epoch]        = gpu_util_max_test
                             
                     print("-" * 40)
                 iter_index = iter_index + 1
 
-    queue_training_results.put( (train_acc_vec, test_acc_vec, train_time_vec, test_time_vec ) )
-    
-    
+    queue_training_results.put(  (  train_acc_vec,
+                                    test_acc_vec,
+                                    train_time_vec,
+                                    test_time_vec,
+                                    train_gpu_mem_usage,
+                                    test_gpu_mem_usage,
+                                    train_gpu_util,
+                                    test_gpu_util,
+                                    device_name,
+                                    device_mem_cap, ) )
+
+
