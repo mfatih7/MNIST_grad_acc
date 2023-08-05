@@ -8,11 +8,13 @@ from utils import return_gpu_info
 
 data_path = './'
 input_size = 28
-input_expand_ratio = 32 # 1, 2, 4, 8, 16, 32, 64
+input_expand_ratio = 64 # 1, 2, 4, 8, 16, 32, 64
+bn_or_gn = 'bn'
+# bn_or_gn = 'gn'
 
 # Hyperparameters
 learning_rate = 0.001
-n_epochs = 3
+n_epochs = 2
 num_workers = 1
 
 
@@ -32,10 +34,10 @@ num_workers = 1
 #                         [  2**0,  2**1,  2**2,  2**3,  2**4,  2**5,  ],
 #                         [  2**0,  2**1,  2**2,  2**3,  2**4,  2**5,  2**6,  ],  ]
 
-batch_sizes = [  16,
-                 128,  ]
+batch_sizes = [  4,
+                 2,  ]
 
-optimizing_batches = [  [  2**4,  ], 
+optimizing_batches = [  [  2**0,  ], 
                         [  2**0,  2**1,  ],  ]
 
 # optimizer_types = ['SGD', 'ADAM']
@@ -64,6 +66,7 @@ if __name__ == '__main__':
                                                                                                         n_epochs,
                                                                                                         num_workers,
                                                                                                         batch_sizes,
+                                                                                                        bn_or_gn,
                                                                                                         optimizing_batches,
                                                                                                         optimizer_types,
                                                                                                         event_start_read_GPU_info,

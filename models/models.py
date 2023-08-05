@@ -1,7 +1,7 @@
 import torch.nn as nn
 
 class CNN_Basic_28_64(nn.Module):
-    def __init__(self):
+    def __init__(self, bn_or_gn):
         super(CNN_Basic_28_64, self).__init__()
         
         
@@ -9,37 +9,55 @@ class CNN_Basic_28_64(nn.Module):
 ##############################################################
 
         self.cnnA1 = nn.Conv2d( in_channels=1, out_channels=16, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA1 = nn.BatchNorm2d(16)
+        if(bn_or_gn == 'bn'):
+            self.normA1 = nn.BatchNorm2d(16)
+        else:
+            self.normA1 = nn.GroupNorm( int(16/8), 16)  
         
         #N, C=16+8*0, H=28*(2**5), W=28*(2**5)
 ##############################################################
 
         self.cnnA2 = nn.Conv2d( in_channels=16, out_channels=24, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA2 = nn.BatchNorm2d(24)     
+        if(bn_or_gn == 'bn'):
+            self.normA2 = nn.BatchNorm2d(24)
+        else:
+            self.normA2 = nn.GroupNorm( int(24/8), 24)  
         
         #N, C=16+8*1, H=28*(2**4), W=28*(2**4)
 ##############################################################
 
         self.cnnA3 = nn.Conv2d( in_channels=24, out_channels=32, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA3 = nn.BatchNorm2d(32)          
+        if(bn_or_gn == 'bn'):
+            self.normA3 = nn.BatchNorm2d(32)
+        else:
+            self.normA3 = nn.GroupNorm( int(32/8), 32)        
         
         #N, C=16+8*2, H=28*(2**3), W=28*(2**3)
 ##############################################################
 
         self.cnnA4 = nn.Conv2d( in_channels=32, out_channels=40, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA4 = nn.BatchNorm2d(40)           
+        if(bn_or_gn == 'bn'):
+            self.normA4 = nn.BatchNorm2d(40)
+        else:
+            self.normA4 = nn.GroupNorm( int(40/8), 40)   
         
         #N, C=16+8*3, H=28*(2**2), W=28*(2**2)
 ##############################################################
 
         self.cnnA5 = nn.Conv2d( in_channels=40, out_channels=48, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA5 = nn.BatchNorm2d(48)           
+        if(bn_or_gn == 'bn'):
+            self.normA5 = nn.BatchNorm2d(48)
+        else:
+            self.normA5 = nn.GroupNorm( int(48/8), 48)       
 
         #N, C=16+8*4, H=28*(2**1), W=28*(2**1)
 ##############################################################
 
         self.cnnA6 = nn.Conv2d( in_channels=48, out_channels=56, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA6 = nn.BatchNorm2d(56)  
+        if(bn_or_gn == 'bn'):
+            self.normA6 = nn.BatchNorm2d(56)
+        else:
+            self.normA6 = nn.GroupNorm( int(56/8), 56)  
 
         
         
@@ -48,31 +66,46 @@ class CNN_Basic_28_64(nn.Module):
 ##############################################################
 
         self.cnn1 = nn.Conv2d( in_channels=56, out_channels=64, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm1 = nn.BatchNorm2d(64)
+        if(bn_or_gn == 'bn'):
+            self.norm1 = nn.BatchNorm2d(64)
+        else:
+            self.norm1 = nn.GroupNorm( int(64/8), 64)
 
         #N, C=16+8*5, H=14, W=14        
 ##############################################################
 
         self.cnn2 = nn.Conv2d(in_channels=64, out_channels=72, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm2 = nn.BatchNorm2d(72)        
+        if(bn_or_gn == 'bn'):
+            self.norm2 = nn.BatchNorm2d(72)
+        else:
+            self.norm2 = nn.GroupNorm( int(72/8), 72)    
         
         #N, C=16+8*6, H=7, W=7        
 ##############################################################
 
         self.cnn3 = nn.Conv2d( in_channels=72, out_channels=80, kernel_size=(2,2), stride=(2,2), padding=(1,1) )           
-        self.batchnorm3 = nn.BatchNorm2d(80)
+        if(bn_or_gn == 'bn'):
+            self.norm3 = nn.BatchNorm2d(80)
+        else:
+            self.norm3 = nn.GroupNorm( int(80/8), 80)
 
         #N, C=16+8*7, H=4, W=4  
 ##############################################################
 
         self.cnn4 = nn.Conv2d(in_channels=80, out_channels=88, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm4 = nn.BatchNorm2d(88)        
+        if(bn_or_gn == 'bn'):
+            self.norm4 = nn.BatchNorm2d(88)
+        else:
+            self.norm4 = nn.GroupNorm( int(88/8), 88)       
         
         #N, C=16+8*8, H=2, W=2  
 ##############################################################
 
         self.cnn5 = nn.Conv2d(in_channels=88, out_channels=96, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm5 = nn.BatchNorm2d(96)                       
+        if(bn_or_gn == 'bn'):
+            self.norm5 = nn.BatchNorm2d(96)
+        else:
+            self.norm5 = nn.GroupNorm( int(96/8), 96)                      
         
         
         #N, C=16+8*9, H=1, W=1        
@@ -89,18 +122,18 @@ class CNN_Basic_28_64(nn.Module):
         
     def forward(self, x):
         
-        x = self.non_lin( self.batchnormA1( self.cnnA1(x) ) )
-        x = self.non_lin( self.batchnormA2( self.cnnA2(x) ) )
-        x = self.non_lin( self.batchnormA3( self.cnnA3(x) ) )
-        x = self.non_lin( self.batchnormA4( self.cnnA4(x) ) )
-        x = self.non_lin( self.batchnormA5( self.cnnA5(x) ) )
-        x = self.non_lin( self.batchnormA6( self.cnnA6(x) ) )
+        x = self.non_lin( self.normA1( self.cnnA1(x) ) )
+        x = self.non_lin( self.normA2( self.cnnA2(x) ) )
+        x = self.non_lin( self.normA3( self.cnnA3(x) ) )
+        x = self.non_lin( self.normA4( self.cnnA4(x) ) )
+        x = self.non_lin( self.normA5( self.cnnA5(x) ) )
+        x = self.non_lin( self.normA6( self.cnnA6(x) ) )
         
-        x = self.non_lin( self.batchnorm1( self.cnn1(x) ) )
-        x = self.non_lin( self.batchnorm2( self.cnn2(x) ) )
-        x = self.non_lin( self.batchnorm3( self.cnn3(x) ) )
-        x = self.non_lin( self.batchnorm4( self.cnn4(x) ) )
-        x = self.non_lin( self.batchnorm5( self.cnn5(x) ) )
+        x = self.non_lin( self.norm1( self.cnn1(x) ) )
+        x = self.non_lin( self.norm2( self.cnn2(x) ) )
+        x = self.non_lin( self.norm3( self.cnn3(x) ) )
+        x = self.non_lin( self.norm4( self.cnn4(x) ) )
+        x = self.non_lin( self.norm5( self.cnn5(x) ) )
 
         
         x = x.view( -1, 96 * 1 * 1 )
@@ -110,7 +143,7 @@ class CNN_Basic_28_64(nn.Module):
         return x
     
 class CNN_Basic_28_32(nn.Module):
-    def __init__(self):
+    def __init__(self, bn_or_gn):
         super(CNN_Basic_28_32, self).__init__()
         
         
@@ -119,31 +152,46 @@ class CNN_Basic_28_32(nn.Module):
 ##############################################################
 
         self.cnnA2 = nn.Conv2d( in_channels=1, out_channels=24, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA2 = nn.BatchNorm2d(24)     
+        if(bn_or_gn == 'bn'):
+            self.normA2 = nn.BatchNorm2d(24)
+        else:
+            self.normA2 = nn.GroupNorm( int(24/8), 24)        
         
         #N, C=16+8*1, H=28*(2**4), W=28*(2**4)
 ##############################################################
 
         self.cnnA3 = nn.Conv2d( in_channels=24, out_channels=32, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA3 = nn.BatchNorm2d(32)          
+        if(bn_or_gn == 'bn'):
+            self.normA3 = nn.BatchNorm2d(32)
+        else:
+            self.normA3 = nn.GroupNorm( int(32/8), 32)              
         
         #N, C=16+8*2, H=28*(2**3), W=28*(2**3)
 ##############################################################
 
         self.cnnA4 = nn.Conv2d( in_channels=32, out_channels=40, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA4 = nn.BatchNorm2d(40)           
+        if(bn_or_gn == 'bn'):
+            self.normA4 = nn.BatchNorm2d(40)
+        else:
+            self.normA4 = nn.GroupNorm( int(40/8), 40)            
         
         #N, C=16+8*3, H=28*(2**2), W=28*(2**2)
 ##############################################################
 
         self.cnnA5 = nn.Conv2d( in_channels=40, out_channels=48, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA5 = nn.BatchNorm2d(48)           
+        if(bn_or_gn == 'bn'):
+            self.normA5 = nn.BatchNorm2d(48)
+        else:
+            self.normA5 = nn.GroupNorm( int(48/8), 48)              
 
         #N, C=16+8*4, H=28*(2**1), W=28*(2**1)
 ##############################################################
 
         self.cnnA6 = nn.Conv2d( in_channels=48, out_channels=56, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA6 = nn.BatchNorm2d(56)  
+        if(bn_or_gn == 'bn'):
+            self.normA6 = nn.BatchNorm2d(56)
+        else:
+            self.normA6 = nn.GroupNorm( int(56/8), 56)        
 
         
         
@@ -152,31 +200,46 @@ class CNN_Basic_28_32(nn.Module):
 ##############################################################
 
         self.cnn1 = nn.Conv2d( in_channels=56, out_channels=64, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm1 = nn.BatchNorm2d(64)
+        if(bn_or_gn == 'bn'):
+            self.norm1 = nn.BatchNorm2d(64)
+        else:
+            self.norm1 = nn.GroupNorm( int(64/8), 64)  
 
         #N, C=16+8*5, H=14, W=14        
 ##############################################################
 
         self.cnn2 = nn.Conv2d(in_channels=64, out_channels=72, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm2 = nn.BatchNorm2d(72)        
+        if(bn_or_gn == 'bn'):
+            self.norm2 = nn.BatchNorm2d(72)
+        else:
+            self.norm2 = nn.GroupNorm( int(72/8), 72)    
         
         #N, C=16+8*6, H=7, W=7        
 ##############################################################
 
         self.cnn3 = nn.Conv2d( in_channels=72, out_channels=80, kernel_size=(2,2), stride=(2,2), padding=(1,1) )           
-        self.batchnorm3 = nn.BatchNorm2d(80)
+        if(bn_or_gn == 'bn'):
+            self.norm3 = nn.BatchNorm2d(80)
+        else:
+            self.norm3 = nn.GroupNorm( int(80/8), 80)  
 
         #N, C=16+8*7, H=4, W=4  
 ##############################################################
 
         self.cnn4 = nn.Conv2d(in_channels=80, out_channels=88, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm4 = nn.BatchNorm2d(88)        
+        if(bn_or_gn == 'bn'):
+            self.norm4 = nn.BatchNorm2d(88)
+        else:
+            self.norm4 = nn.GroupNorm( int(88/8), 88)   
         
         #N, C=16+8*8, H=2, W=2  
 ##############################################################
 
         self.cnn5 = nn.Conv2d(in_channels=88, out_channels=96, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm5 = nn.BatchNorm2d(96)                       
+        if(bn_or_gn == 'bn'):
+            self.norm5 = nn.BatchNorm2d(96)
+        else:
+            self.norm5 = nn.GroupNorm( int(96/8), 96)                    
         
         
         #N, C=16+8*9, H=1, W=1        
@@ -193,17 +256,17 @@ class CNN_Basic_28_32(nn.Module):
         
     def forward(self, x):
         
-        x = self.non_lin( self.batchnormA2( self.cnnA2(x) ) )
-        x = self.non_lin( self.batchnormA3( self.cnnA3(x) ) )
-        x = self.non_lin( self.batchnormA4( self.cnnA4(x) ) )
-        x = self.non_lin( self.batchnormA5( self.cnnA5(x) ) )
-        x = self.non_lin( self.batchnormA6( self.cnnA6(x) ) )
+        x = self.non_lin( self.normA2( self.cnnA2(x) ) )
+        x = self.non_lin( self.normA3( self.cnnA3(x) ) )
+        x = self.non_lin( self.normA4( self.cnnA4(x) ) )
+        x = self.non_lin( self.normA5( self.cnnA5(x) ) )
+        x = self.non_lin( self.normA6( self.cnnA6(x) ) )
         
-        x = self.non_lin( self.batchnorm1( self.cnn1(x) ) )
-        x = self.non_lin( self.batchnorm2( self.cnn2(x) ) )
-        x = self.non_lin( self.batchnorm3( self.cnn3(x) ) )
-        x = self.non_lin( self.batchnorm4( self.cnn4(x) ) )
-        x = self.non_lin( self.batchnorm5( self.cnn5(x) ) )
+        x = self.non_lin( self.norm1( self.cnn1(x) ) )
+        x = self.non_lin( self.norm2( self.cnn2(x) ) )
+        x = self.non_lin( self.norm3( self.cnn3(x) ) )
+        x = self.non_lin( self.norm4( self.cnn4(x) ) )
+        x = self.non_lin( self.norm5( self.cnn5(x) ) )
 
         
         x = x.view( -1, 96 * 1 * 1 )
@@ -214,7 +277,7 @@ class CNN_Basic_28_32(nn.Module):
     
     
 class CNN_Basic_28_16(nn.Module):
-    def __init__(self):
+    def __init__(self, bn_or_gn):
         super(CNN_Basic_28_16, self).__init__()
         
           
@@ -222,26 +285,38 @@ class CNN_Basic_28_16(nn.Module):
         #N, C=1, H=28*(2**4), W=28*(2**4)
 ##############################################################
 
-        self.cnnA3 = nn.Conv2d( in_channels=1, out_channels=32, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA3 = nn.BatchNorm2d(32)          
+        self.cnnA3 = nn.Conv2d( in_channels=1, out_channels=32, kernel_size=(2,2), stride=(2,2), padding=(0,0) )  
+        if(bn_or_gn == 'bn'):
+            self.normA3 = nn.BatchNorm2d(32)
+        else:
+            self.normA3 = nn.GroupNorm( int(32/8), 32)        
         
         #N, C=16+8*2, H=28*(2**3), W=28*(2**3)
 ##############################################################
 
         self.cnnA4 = nn.Conv2d( in_channels=32, out_channels=40, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA4 = nn.BatchNorm2d(40)           
+        if(bn_or_gn == 'bn'):
+            self.normA4 = nn.BatchNorm2d(40)
+        else:
+            self.normA4 = nn.GroupNorm( int(40/8), 40)                
         
         #N, C=16+8*3, H=28*(2**2), W=28*(2**2)
 ##############################################################
 
         self.cnnA5 = nn.Conv2d( in_channels=40, out_channels=48, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA5 = nn.BatchNorm2d(48)           
+        if(bn_or_gn == 'bn'):
+            self.normA5 = nn.BatchNorm2d(48)
+        else:
+            self.normA5 = nn.GroupNorm( int(48/8), 48)           
 
         #N, C=16+8*4, H=28*(2**1), W=28*(2**1)
 ##############################################################
 
         self.cnnA6 = nn.Conv2d( in_channels=48, out_channels=56, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA6 = nn.BatchNorm2d(56)  
+        if(bn_or_gn == 'bn'):
+            self.normA6 = nn.BatchNorm2d(56)
+        else:
+            self.normA6 = nn.GroupNorm( int(56/8), 56)       
 
         
         
@@ -249,32 +324,47 @@ class CNN_Basic_28_16(nn.Module):
         #N, C=16+8*5, H=28, W=28
 ##############################################################
 
-        self.cnn1 = nn.Conv2d( in_channels=56, out_channels=64, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm1 = nn.BatchNorm2d(64)
+        self.cnn1 = nn.Conv2d( in_channels=56, out_channels=64, kernel_size=(2,2), stride=(2,2), padding=(0,0) )
+        if(bn_or_gn == 'bn'):
+            self.norm1 = nn.BatchNorm2d(64)
+        else:
+            self.norm1 = nn.GroupNorm( int(64/8), 64)
 
         #N, C=16+8*5, H=14, W=14        
 ##############################################################
 
         self.cnn2 = nn.Conv2d(in_channels=64, out_channels=72, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm2 = nn.BatchNorm2d(72)        
+        if(bn_or_gn == 'bn'):
+            self.norm2 = nn.BatchNorm2d(72)
+        else:
+            self.norm2 = nn.GroupNorm( int(72/8), 72)       
         
         #N, C=16+8*6, H=7, W=7        
 ##############################################################
 
         self.cnn3 = nn.Conv2d( in_channels=72, out_channels=80, kernel_size=(2,2), stride=(2,2), padding=(1,1) )           
-        self.batchnorm3 = nn.BatchNorm2d(80)
+        if(bn_or_gn == 'bn'):
+            self.norm3 = nn.BatchNorm2d(80)
+        else:
+            self.norm3 = nn.GroupNorm( int(80/8), 80)
 
         #N, C=16+8*7, H=4, W=4  
 ##############################################################
 
         self.cnn4 = nn.Conv2d(in_channels=80, out_channels=88, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm4 = nn.BatchNorm2d(88)        
+        if(bn_or_gn == 'bn'):
+            self.norm4 = nn.BatchNorm2d(88)
+        else:
+            self.norm4 = nn.GroupNorm( int(88/8), 88)       
         
         #N, C=16+8*8, H=2, W=2  
 ##############################################################
 
         self.cnn5 = nn.Conv2d(in_channels=88, out_channels=96, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm5 = nn.BatchNorm2d(96)                       
+        if(bn_or_gn == 'bn'):
+            self.norm5 = nn.BatchNorm2d(96)
+        else:
+            self.norm5 = nn.GroupNorm( int(96/8), 96)                     
         
         
         #N, C=16+8*9, H=1, W=1        
@@ -291,16 +381,16 @@ class CNN_Basic_28_16(nn.Module):
         
     def forward(self, x):
         
-        x = self.non_lin( self.batchnormA3( self.cnnA3(x) ) )
-        x = self.non_lin( self.batchnormA4( self.cnnA4(x) ) )
-        x = self.non_lin( self.batchnormA5( self.cnnA5(x) ) )
-        x = self.non_lin( self.batchnormA6( self.cnnA6(x) ) )
+        x = self.non_lin( self.normA3( self.cnnA3(x) ) )
+        x = self.non_lin( self.normA4( self.cnnA4(x) ) )
+        x = self.non_lin( self.normA5( self.cnnA5(x) ) )
+        x = self.non_lin( self.normA6( self.cnnA6(x) ) )
         
-        x = self.non_lin( self.batchnorm1( self.cnn1(x) ) )
-        x = self.non_lin( self.batchnorm2( self.cnn2(x) ) )
-        x = self.non_lin( self.batchnorm3( self.cnn3(x) ) )
-        x = self.non_lin( self.batchnorm4( self.cnn4(x) ) )
-        x = self.non_lin( self.batchnorm5( self.cnn5(x) ) )
+        x = self.non_lin( self.norm1( self.cnn1(x) ) )
+        x = self.non_lin( self.norm2( self.cnn2(x) ) )
+        x = self.non_lin( self.norm3( self.cnn3(x) ) )
+        x = self.non_lin( self.norm4( self.cnn4(x) ) )
+        x = self.non_lin( self.norm5( self.cnn5(x) ) )
 
         
         x = x.view( -1, 96 * 1 * 1 )
@@ -311,7 +401,7 @@ class CNN_Basic_28_16(nn.Module):
 
 
 class CNN_Basic_28_8(nn.Module):
-    def __init__(self):
+    def __init__(self, bn_or_gn):
         super(CNN_Basic_28_8, self).__init__()
         
                  
@@ -319,21 +409,29 @@ class CNN_Basic_28_8(nn.Module):
         #N, C=1, H=28*(2**3), W=28*(2**3)
 ##############################################################
 
-        self.cnnA4 = nn.Conv2d( in_channels=1, out_channels=40, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA4 = nn.BatchNorm2d(40)           
+        self.cnnA4 = nn.Conv2d( in_channels=1, out_channels=40, kernel_size=(2,2), stride=(2,2), padding=(0,0) )
+        if(bn_or_gn == 'bn'):
+            self.normA4 = nn.BatchNorm2d(40)
+        else:
+            self.normA4 = nn.GroupNorm( int(40/8), 40)
         
         #N, C=16+8*3, H=28*(2**2), W=28*(2**2)
 ##############################################################
 
-        self.cnnA5 = nn.Conv2d( in_channels=40, out_channels=48, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA5 = nn.BatchNorm2d(48)           
+        self.cnnA5 = nn.Conv2d( in_channels=40, out_channels=48, kernel_size=(2,2), stride=(2,2), padding=(0,0) )
+        if(bn_or_gn == 'bn'):
+            self.normA5 = nn.BatchNorm2d(48)
+        else:
+            self.normA5 = nn.GroupNorm( int(48/8), 48)
 
         #N, C=16+8*4, H=28*(2**1), W=28*(2**1)
 ##############################################################
 
-        self.cnnA6 = nn.Conv2d( in_channels=48, out_channels=56, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA6 = nn.BatchNorm2d(56)  
-
+        self.cnnA6 = nn.Conv2d( in_channels=48, out_channels=56, kernel_size=(2,2), stride=(2,2), padding=(0,0) )
+        if(bn_or_gn == 'bn'):
+            self.normA6 = nn.BatchNorm2d(56)
+        else:
+            self.normA6 = nn.GroupNorm( int(56/8), 56)
         
         
 
@@ -341,31 +439,46 @@ class CNN_Basic_28_8(nn.Module):
 ##############################################################
 
         self.cnn1 = nn.Conv2d( in_channels=56, out_channels=64, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm1 = nn.BatchNorm2d(64)
+        if(bn_or_gn == 'bn'):
+            self.norm1 = nn.BatchNorm2d(64)
+        else:
+            self.norm1 = nn.GroupNorm( int(64/8), 64)
 
         #N, C=16+8*5, H=14, W=14        
 ##############################################################
 
         self.cnn2 = nn.Conv2d(in_channels=64, out_channels=72, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm2 = nn.BatchNorm2d(72)        
+        if(bn_or_gn == 'bn'):
+            self.norm2 = nn.BatchNorm2d(72)
+        else:
+            self.norm2 = nn.GroupNorm( int(72/8), 72)      
         
         #N, C=16+8*6, H=7, W=7        
 ##############################################################
 
         self.cnn3 = nn.Conv2d( in_channels=72, out_channels=80, kernel_size=(2,2), stride=(2,2), padding=(1,1) )           
-        self.batchnorm3 = nn.BatchNorm2d(80)
+        if(bn_or_gn == 'bn'):
+            self.norm3 = nn.BatchNorm2d(80)
+        else:
+            self.norm3 = nn.GroupNorm( int(80/8), 80)
 
         #N, C=16+8*7, H=4, W=4  
 ##############################################################
 
         self.cnn4 = nn.Conv2d(in_channels=80, out_channels=88, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm4 = nn.BatchNorm2d(88)        
+        if(bn_or_gn == 'bn'):
+            self.norm4 = nn.BatchNorm2d(88)
+        else:
+            self.norm4 = nn.GroupNorm( int(88/8), 88)  
         
         #N, C=16+8*8, H=2, W=2  
 ##############################################################
 
         self.cnn5 = nn.Conv2d(in_channels=88, out_channels=96, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm5 = nn.BatchNorm2d(96)                       
+        if(bn_or_gn == 'bn'):
+            self.norm5 = nn.BatchNorm2d(96)
+        else:
+            self.norm5 = nn.GroupNorm( int(96/8), 96)              
         
         
         #N, C=16+8*9, H=1, W=1        
@@ -382,15 +495,15 @@ class CNN_Basic_28_8(nn.Module):
         
     def forward(self, x):
         
-        x = self.non_lin( self.batchnormA4( self.cnnA4(x) ) )
-        x = self.non_lin( self.batchnormA5( self.cnnA5(x) ) )
-        x = self.non_lin( self.batchnormA6( self.cnnA6(x) ) )
+        x = self.non_lin( self.normA4( self.cnnA4(x) ) )
+        x = self.non_lin( self.normA5( self.cnnA5(x) ) )
+        x = self.non_lin( self.normA6( self.cnnA6(x) ) )
         
-        x = self.non_lin( self.batchnorm1( self.cnn1(x) ) )
-        x = self.non_lin( self.batchnorm2( self.cnn2(x) ) )
-        x = self.non_lin( self.batchnorm3( self.cnn3(x) ) )
-        x = self.non_lin( self.batchnorm4( self.cnn4(x) ) )
-        x = self.non_lin( self.batchnorm5( self.cnn5(x) ) )
+        x = self.non_lin( self.norm1( self.cnn1(x) ) )
+        x = self.non_lin( self.norm2( self.cnn2(x) ) )
+        x = self.non_lin( self.norm3( self.cnn3(x) ) )
+        x = self.non_lin( self.norm4( self.cnn4(x) ) )
+        x = self.non_lin( self.norm5( self.cnn5(x) ) )
 
         
         x = x.view( -1, 96 * 1 * 1 )
@@ -401,7 +514,7 @@ class CNN_Basic_28_8(nn.Module):
 
 
 class CNN_Basic_28_4(nn.Module):
-    def __init__(self):
+    def __init__(self, bn_or_gn):
         super(CNN_Basic_28_4, self).__init__()
         
         
@@ -410,48 +523,67 @@ class CNN_Basic_28_4(nn.Module):
         #N, C=1, H=28*(2**2), W=28*(2**2)
 ##############################################################
 
-        self.cnnA5 = nn.Conv2d( in_channels=1, out_channels=48, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA5 = nn.BatchNorm2d(48)           
+        self.cnnA5 = nn.Conv2d( in_channels=1, out_channels=48, kernel_size=(2,2), stride=(2,2), padding=(0,0) )    
+        if(bn_or_gn == 'bn'):
+            self.normA5 = nn.BatchNorm2d(48)
+        else:
+            self.normA5 = nn.GroupNorm( int(48/8), 48)
 
         #N, C=16+8*4, H=28*(2**1), W=28*(2**1)
 ##############################################################
 
-        self.cnnA6 = nn.Conv2d( in_channels=48, out_channels=56, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA6 = nn.BatchNorm2d(56)  
-
+        self.cnnA6 = nn.Conv2d( in_channels=48, out_channels=56, kernel_size=(2,2), stride=(2,2), padding=(0,0) )
+        if(bn_or_gn == 'bn'):
+            self.normA6 = nn.BatchNorm2d(56)
+        else:
+            self.normA6 = nn.GroupNorm( int(56/8), 56)
         
         
 
         #N, C=16+8*5, H=28, W=28
 ##############################################################
 
-        self.cnn1 = nn.Conv2d( in_channels=56, out_channels=64, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm1 = nn.BatchNorm2d(64)
+        self.cnn1 = nn.Conv2d( in_channels=56, out_channels=64, kernel_size=(2,2), stride=(2,2), padding=(0,0) )
+        if(bn_or_gn == 'bn'):
+            self.norm1 = nn.BatchNorm2d(64)
+        else:
+            self.norm1 = nn.GroupNorm( int(64/8), 64)
 
         #N, C=16+8*5, H=14, W=14        
 ##############################################################
 
         self.cnn2 = nn.Conv2d(in_channels=64, out_channels=72, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm2 = nn.BatchNorm2d(72)        
+        if(bn_or_gn == 'bn'):
+            self.norm2 = nn.BatchNorm2d(72)
+        else:
+            self.norm2 = nn.GroupNorm( int(72/8), 72)
         
         #N, C=16+8*6, H=7, W=7        
 ##############################################################
 
         self.cnn3 = nn.Conv2d( in_channels=72, out_channels=80, kernel_size=(2,2), stride=(2,2), padding=(1,1) )           
-        self.batchnorm3 = nn.BatchNorm2d(80)
+        if(bn_or_gn == 'bn'):
+            self.norm3 = nn.BatchNorm2d(80)
+        else:
+            self.norm3 = nn.GroupNorm( int(80/8), 80)
 
         #N, C=16+8*7, H=4, W=4  
 ##############################################################
 
         self.cnn4 = nn.Conv2d(in_channels=80, out_channels=88, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm4 = nn.BatchNorm2d(88)        
+        if(bn_or_gn == 'bn'):
+            self.norm4 = nn.BatchNorm2d(88)
+        else:
+            self.norm4 = nn.GroupNorm( int(88/8), 88)
         
         #N, C=16+8*8, H=2, W=2  
 ##############################################################
 
-        self.cnn5 = nn.Conv2d(in_channels=88, out_channels=96, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm5 = nn.BatchNorm2d(96)                       
-        
+        self.cnn5 = nn.Conv2d(in_channels=88, out_channels=96, kernel_size=(2,2), stride=(2,2), padding=(0,0) )      
+        if(bn_or_gn == 'bn'):
+            self.norm5 = nn.BatchNorm2d(96)
+        else:
+            self.norm5 = nn.GroupNorm( int(96/8), 96)       
         
         #N, C=16+8*9, H=1, W=1        
 ##############################################################  
@@ -467,14 +599,14 @@ class CNN_Basic_28_4(nn.Module):
         
     def forward(self, x):
         
-        x = self.non_lin( self.batchnormA5( self.cnnA5(x) ) )
-        x = self.non_lin( self.batchnormA6( self.cnnA6(x) ) )
+        x = self.non_lin( self.normA5( self.cnnA5(x) ) )
+        x = self.non_lin( self.normA6( self.cnnA6(x) ) )
         
-        x = self.non_lin( self.batchnorm1( self.cnn1(x) ) )
-        x = self.non_lin( self.batchnorm2( self.cnn2(x) ) )
-        x = self.non_lin( self.batchnorm3( self.cnn3(x) ) )
-        x = self.non_lin( self.batchnorm4( self.cnn4(x) ) )
-        x = self.non_lin( self.batchnorm5( self.cnn5(x) ) )
+        x = self.non_lin( self.norm1( self.cnn1(x) ) )
+        x = self.non_lin( self.norm2( self.cnn2(x) ) )
+        x = self.non_lin( self.norm3( self.cnn3(x) ) )
+        x = self.non_lin( self.norm4( self.cnn4(x) ) )
+        x = self.non_lin( self.norm5( self.cnn5(x) ) )
 
         
         x = x.view( -1, 96 * 1 * 1 )
@@ -486,16 +618,18 @@ class CNN_Basic_28_4(nn.Module):
 
 
 class CNN_Basic_28_2(nn.Module):
-    def __init__(self):
+    def __init__(self, bn_or_gn):
         super(CNN_Basic_28_2, self).__init__()
         
 
         #N, C=1, H=28*(2**1), W=28*(2**1)
 ##############################################################
 
-        self.cnnA6 = nn.Conv2d( in_channels=1, out_channels=56, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnormA6 = nn.BatchNorm2d(56)  
-
+        self.cnnA6 = nn.Conv2d( in_channels=1, out_channels=56, kernel_size=(2,2), stride=(2,2), padding=(0,0) )
+        if(bn_or_gn == 'bn'):
+            self.normA6 = nn.BatchNorm2d(56)
+        else:
+            self.normA6 = nn.GroupNorm( int(56/8), 56)
         
         
 
@@ -503,31 +637,46 @@ class CNN_Basic_28_2(nn.Module):
 ##############################################################
 
         self.cnn1 = nn.Conv2d( in_channels=56, out_channels=64, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm1 = nn.BatchNorm2d(64)
+        if(bn_or_gn == 'bn'):
+            self.norm1 = nn.BatchNorm2d(64)
+        else:
+            self.norm1 = nn.GroupNorm( int(64/8), 64)
 
         #N, C=16+8*5, H=14, W=14        
 ##############################################################
 
         self.cnn2 = nn.Conv2d(in_channels=64, out_channels=72, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm2 = nn.BatchNorm2d(72)        
+        if(bn_or_gn == 'bn'):
+            self.norm2 = nn.BatchNorm2d(72)
+        else:
+            self.norm2 = nn.GroupNorm( int(72/8), 72)      
         
         #N, C=16+8*6, H=7, W=7        
 ##############################################################
 
         self.cnn3 = nn.Conv2d( in_channels=72, out_channels=80, kernel_size=(2,2), stride=(2,2), padding=(1,1) )           
-        self.batchnorm3 = nn.BatchNorm2d(80)
+        if(bn_or_gn == 'bn'):
+            self.norm3 = nn.BatchNorm2d(80)
+        else:
+            self.norm3 = nn.GroupNorm( int(80/8), 80)
 
         #N, C=16+8*7, H=4, W=4  
 ##############################################################
 
-        self.cnn4 = nn.Conv2d(in_channels=80, out_channels=88, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm4 = nn.BatchNorm2d(88)        
+        self.cnn4 = nn.Conv2d(in_channels=80, out_channels=88, kernel_size=(2,2), stride=(2,2), padding=(0,0) )
+        if(bn_or_gn == 'bn'):
+            self.norm4 = nn.BatchNorm2d(88)
+        else:
+            self.norm4 = nn.GroupNorm( int(88/8), 88)
         
         #N, C=16+8*8, H=2, W=2  
 ##############################################################
 
-        self.cnn5 = nn.Conv2d(in_channels=88, out_channels=96, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm5 = nn.BatchNorm2d(96)                       
+        self.cnn5 = nn.Conv2d(in_channels=88, out_channels=96, kernel_size=(2,2), stride=(2,2), padding=(0,0) )
+        if(bn_or_gn == 'bn'):
+            self.norm5 = nn.BatchNorm2d(96)
+        else:
+            self.norm5 = nn.GroupNorm( int(96/8), 96) 
         
         
         #N, C=16+8*9, H=1, W=1        
@@ -545,13 +694,13 @@ class CNN_Basic_28_2(nn.Module):
     def forward(self, x):
         
 
-        x = self.non_lin( self.batchnormA6( self.cnnA6(x) ) )
+        x = self.non_lin( self.normA6( self.cnnA6(x) ) )
         
-        x = self.non_lin( self.batchnorm1( self.cnn1(x) ) )
-        x = self.non_lin( self.batchnorm2( self.cnn2(x) ) )
-        x = self.non_lin( self.batchnorm3( self.cnn3(x) ) )
-        x = self.non_lin( self.batchnorm4( self.cnn4(x) ) )
-        x = self.non_lin( self.batchnorm5( self.cnn5(x) ) )
+        x = self.non_lin( self.norm1( self.cnn1(x) ) )
+        x = self.non_lin( self.norm2( self.cnn2(x) ) )
+        x = self.non_lin( self.norm3( self.cnn3(x) ) )
+        x = self.non_lin( self.norm4( self.cnn4(x) ) )
+        x = self.non_lin( self.norm5( self.cnn5(x) ) )
 
         
         x = x.view( -1, 96 * 1 * 1 )
@@ -564,40 +713,54 @@ class CNN_Basic_28_2(nn.Module):
     
     
 class CNN_Basic_28_1(nn.Module):
-    def __init__(self):
+    def __init__(self, bn_or_gn):
         super(CNN_Basic_28_1, self).__init__()
         
 
         #N, C=1, H=28, W=28
 ##############################################################
 
-        self.cnn1 = nn.Conv2d( in_channels=1, out_channels=64, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm1 = nn.BatchNorm2d(64)
+        self.cnn1 = nn.Conv2d( in_channels=1, out_channels=64, kernel_size=(2,2), stride=(2,2), padding=(0,0) )
+        if(bn_or_gn == 'bn'):
+            self.norm1 = nn.BatchNorm2d(64)
+        else:
+            self.norm1 = nn.GroupNorm( int(64/8), 64)
 
         #N, C=16+8*5, H=14, W=14        
 ##############################################################
 
-        self.cnn2 = nn.Conv2d(in_channels=64, out_channels=72, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm2 = nn.BatchNorm2d(72)        
+        self.cnn2 = nn.Conv2d(in_channels=64, out_channels=72, kernel_size=(2,2), stride=(2,2), padding=(0,0) )   
+        if(bn_or_gn == 'bn'):
+            self.norm2 = nn.BatchNorm2d(72)
+        else:
+            self.norm2 = nn.GroupNorm( int(72/8), 72)
         
         #N, C=16+8*6, H=7, W=7        
 ##############################################################
 
-        self.cnn3 = nn.Conv2d( in_channels=72, out_channels=80, kernel_size=(2,2), stride=(2,2), padding=(1,1) )           
-        self.batchnorm3 = nn.BatchNorm2d(80)
+        self.cnn3 = nn.Conv2d( in_channels=72, out_channels=80, kernel_size=(2,2), stride=(2,2), padding=(1,1) )
+        if(bn_or_gn == 'bn'):
+            self.norm3 = nn.BatchNorm2d(80)
+        else:
+            self.norm3 = nn.GroupNorm( int(80/8), 80)
 
         #N, C=16+8*7, H=4, W=4  
 ##############################################################
 
-        self.cnn4 = nn.Conv2d(in_channels=80, out_channels=88, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm4 = nn.BatchNorm2d(88)        
+        self.cnn4 = nn.Conv2d(in_channels=80, out_channels=88, kernel_size=(2,2), stride=(2,2), padding=(0,0) )     
+        if(bn_or_gn == 'bn'):
+            self.norm4 = nn.BatchNorm2d(88)
+        else:
+            self.norm4 = nn.GroupNorm( int(88/8), 88)
         
         #N, C=16+8*8, H=2, W=2  
 ##############################################################
 
-        self.cnn5 = nn.Conv2d(in_channels=88, out_channels=96, kernel_size=(2,2), stride=(2,2), padding=(0,0) )           
-        self.batchnorm5 = nn.BatchNorm2d(96)                       
-        
+        self.cnn5 = nn.Conv2d(in_channels=88, out_channels=96, kernel_size=(2,2), stride=(2,2), padding=(0,0) )
+        if(bn_or_gn == 'bn'):
+            self.norm5 = nn.BatchNorm2d(96)
+        else:
+            self.norm5 = nn.GroupNorm( int(96/8), 96)  
         
         #N, C=16+8*9, H=1, W=1        
 ##############################################################  
@@ -613,11 +776,11 @@ class CNN_Basic_28_1(nn.Module):
         
     def forward(self, x):
         
-        x = self.non_lin( self.batchnorm1( self.cnn1(x) ) )
-        x = self.non_lin( self.batchnorm2( self.cnn2(x) ) )
-        x = self.non_lin( self.batchnorm3( self.cnn3(x) ) )
-        x = self.non_lin( self.batchnorm4( self.cnn4(x) ) )
-        x = self.non_lin( self.batchnorm5( self.cnn5(x) ) )
+        x = self.non_lin( self.norm1( self.cnn1(x) ) )
+        x = self.non_lin( self.norm2( self.cnn2(x) ) )
+        x = self.non_lin( self.norm3( self.cnn3(x) ) )
+        x = self.non_lin( self.norm4( self.cnn4(x) ) )
+        x = self.non_lin( self.norm5( self.cnn5(x) ) )
 
         
         x = x.view( -1, 96 * 1 * 1 )
@@ -714,22 +877,22 @@ class CNN_Basic(nn.Module):
         
         return x
 
-def get_model( input_expand_ratio ):
+def get_model( input_expand_ratio, bn_or_gn ):
     
     if( input_expand_ratio == 64):    
-        return CNN_Basic_28_64( )
+        return CNN_Basic_28_64( bn_or_gn )
     elif( input_expand_ratio == 32):    
-        return CNN_Basic_28_32( )
+        return CNN_Basic_28_32( bn_or_gn )
     elif( input_expand_ratio == 16):    
-        return CNN_Basic_28_16( )
+        return CNN_Basic_28_16( bn_or_gn )
     elif( input_expand_ratio == 8):    
-        return CNN_Basic_28_8( )
+        return CNN_Basic_28_8( bn_or_gn )
     elif( input_expand_ratio == 4):    
-        return CNN_Basic_28_4( )
+        return CNN_Basic_28_4( bn_or_gn )
     elif( input_expand_ratio == 2):    
-        return CNN_Basic_28_2( )
+        return CNN_Basic_28_2( bn_or_gn )
     elif( input_expand_ratio == 1):    
-        return CNN_Basic_28_1( )
+        return CNN_Basic_28_1( bn_or_gn )
     # elif( input_expand_ratio == 1):    
     #     return CNN_Basic( )
     else:
