@@ -3,9 +3,9 @@ import MNIST_train_test_grad_acc_3
 
 import threading
 import queue
-import time
 
-from utils import get_info 
+from utils import get_info
+from plots import plot_train_time 
 
 data_path = './'
 input_size = 28
@@ -88,6 +88,8 @@ if __name__ == '__main__':
     train_gpu_util      = training_results[6]
     test_gpu_util       = training_results[7]
     device_name         = training_results[8]
-    device_mem_cap      = training_results[9]    
+    device_mem_cap      = training_results[9]
+    
+    plot_train_time( batch_sizes, optimizing_batches, train_time_vec)
         
     
