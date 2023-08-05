@@ -50,7 +50,7 @@ def plot_train_time( batch_sizes, optimizing_batches, train_time):
     plt.grid(True)
     leg = plt.legend(title='Backprop Batch')
     leg.set_alpha(0)
-    plt.ylabel('Average Training Time')
+    plt.ylabel('Average Training Time(sec)')
     plt.xlabel('Optimizing Batch')
     
     plt.xticks( x, [str(batch_size) for batch_size in batch_sizes] )
