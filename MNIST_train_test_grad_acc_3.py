@@ -4,11 +4,15 @@ import torch.optim as optim
 import torchvision
 from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
-import matplotlib.pyplot as plt
 import numpy as np
 import time
 
 from torchsummary import summary
+
+from utils import clear_gpu_mem_util
+from utils import check_gpu_info_queue
+from utils import trig_GPU_read
+from utils import get_info_from_GPU_queue
 
 from models.models import get_model
 
@@ -41,6 +45,7 @@ def train_and_test( data_path,
                                                    train = False,
                                                    download = True, 
                                                    transform = transform )
+
     tot_iter = 0
     for batch_size_idx, batch_size in enumerate(batch_sizes):
         tot_iter += len(optimizing_batches[batch_size_idx] * len(optimizer_types) )
@@ -60,6 +65,12 @@ def train_and_test( data_path,
             for optimizer_type in optimizer_types:
     
                 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+                
+                if( device == 'gpu' ):
+                    torch.cuda.empty_cache()
+                
+                # device = 'cpu'
+                
                 model = get_model( input_expand_ratio, bn_or_gn ).to(device)
                 criterion = nn.CrossEntropyLoss()          
                 
@@ -101,8 +112,7 @@ def train_and_test( data_path,
                     
                     for i, (images, labels) in enumerate(train_dataloader):
                         
-                        if not event_start_read_GPU_info.is_set() :
-                            event_start_read_GPU_info.set()
+                        trig_GPU_read( queue_gpu_info, event_start_read_GPU_info )
                         
                         images, labels = images.to(device), labels.to(device)
                         
@@ -122,16 +132,14 @@ def train_and_test( data_path,
                         
                         if( (i+1) % optimizing_batch == 0 or (i+1) == len(train_dataloader) ):
                             optimizer.step()
-                            optimizer.zero_grad()                            
+                            optimizer.zero_grad()          
                         
-                        if not queue_gpu_info.empty():                                
-                            queue_gpu_info_taken = queue_gpu_info.get()
-                            device_name = queue_gpu_info_taken[1]
-                            device_mem_cap = queue_gpu_info_taken[3]
-                            if(gpu_mem_usage_max_train < int(queue_gpu_info_taken[2])):
-                                gpu_mem_usage_max_train = queue_gpu_info_taken[2]
-                            if(gpu_util_max_train < int(queue_gpu_info_taken[4])):
-                                gpu_util_max_train = queue_gpu_info_taken[4]
+                        data_from_GPU_queue = get_info_from_GPU_queue( queue_gpu_info, event_start_read_GPU_info)
+                        if(data_from_GPU_queue != None):
+                            device_name = data_from_GPU_queue[0]
+                            device_mem_cap = data_from_GPU_queue[1]
+                            gpu_mem_usage_max_train = max(gpu_mem_usage_max_train, data_from_GPU_queue[2])
+                            gpu_util_max_train = max(gpu_util_max_train, data_from_GPU_queue[3])                                                        
                         
                         if( ( (i*batch_size) % 10000 ) > ( ((i+1)*batch_size) % 10000 ) or (i+1) == len(train_dataloader) ):                               
                             
@@ -150,6 +158,8 @@ def train_and_test( data_path,
                                                 device_mem_cap,
                                                 gpu_util_max_train, ) )   
                     
+                    check_gpu_info_queue(queue_gpu_info)
+                    
                     train_acc_vec[iter_index, epoch]        = acc_train
                     end_time_train                          = time.perf_counter()
                     train_time_vec[iter_index, epoch]       = end_time_train - start_time_train
@@ -167,8 +177,7 @@ def train_and_test( data_path,
                     with torch.no_grad():        
                         for i, (images, labels) in enumerate(test_dataloader):
                             
-                            if not event_start_read_GPU_info.is_set():
-                                event_start_read_GPU_info.set()
+                            trig_GPU_read( queue_gpu_info, event_start_read_GPU_info )
                             
                             images, labels = images.to(device), labels.to(device)  
                             
@@ -179,14 +188,12 @@ def train_and_test( data_path,
                             correct_test += (predicted == labels).sum().cpu().detach().numpy()
                             acc_test = correct_test / total_test
                             
-                            if not queue_gpu_info.empty():                                
-                                queue_gpu_info_taken = queue_gpu_info.get()
-                                device_name = queue_gpu_info_taken[1]
-                                device_mem_cap = queue_gpu_info_taken[3]
-                                if(gpu_mem_usage_max_test < int(queue_gpu_info_taken[2])):
-                                    gpu_mem_usage_max_test = queue_gpu_info_taken[2]
-                                if(gpu_util_max_test < int(queue_gpu_info_taken[4])):
-                                    gpu_util_max_test = queue_gpu_info_taken[4]
+                            data_from_GPU_queue = get_info_from_GPU_queue( queue_gpu_info, event_start_read_GPU_info)
+                            if(data_from_GPU_queue != None):
+                                device_name = data_from_GPU_queue[0]
+                                device_mem_cap = data_from_GPU_queue[1]
+                                gpu_mem_usage_max_test = max(gpu_mem_usage_max_train, data_from_GPU_queue[2])
+                                gpu_util_max_test = max(gpu_util_max_train, data_from_GPU_queue[3]) 
                             
                             if( ( (i*batch_size) % 10000 ) > ( ((i+1)*batch_size) % 10000 ) or (i+1) == len(test_dataloader) ):
                                 
@@ -203,7 +210,9 @@ def train_and_test( data_path,
                                                     gpu_mem_usage_max_test,
                                                     device_mem_cap,
                                                     gpu_util_max_test, ) )
-
+                    
+                    check_gpu_info_queue(queue_gpu_info)
+                    
                     test_acc_vec[iter_index, epoch]         = acc_test
                     end_time_test                           = time.perf_counter()
                     test_time_vec[iter_index, epoch]        = end_time_test - start_time_test
@@ -212,6 +221,8 @@ def train_and_test( data_path,
                             
                     print("-" * 40)
                 iter_index = iter_index + 1
+                
+                clear_gpu_mem_util(model, images, labels)
 
     queue_training_results.put(  (  train_acc_vec,
                                     test_acc_vec,

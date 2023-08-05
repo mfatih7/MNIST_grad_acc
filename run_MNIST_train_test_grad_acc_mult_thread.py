@@ -3,14 +3,15 @@ import MNIST_train_test_grad_acc_3
 
 import threading
 import queue
+import time
 
-from utils import return_gpu_info 
+from utils import get_info 
 
 data_path = './'
 input_size = 28
-input_expand_ratio = 64 # 1, 2, 4, 8, 16, 32, 64
+input_expand_ratio = 2 # 1, 2, 4, 8, 16, 32, 64
 bn_or_gn = 'bn'
-# bn_or_gn = 'gn'
+bn_or_gn = 'gn'
 
 # Hyperparameters
 learning_rate = 0.001
@@ -34,22 +35,17 @@ num_workers = 1
 #                         [  2**0,  2**1,  2**2,  2**3,  2**4,  2**5,  ],
 #                         [  2**0,  2**1,  2**2,  2**3,  2**4,  2**5,  2**6,  ],  ]
 
-batch_sizes = [  4,
+batch_sizes = [  128,
+                 16,
                  2,  ]
 
 optimizing_batches = [  [  2**0,  ], 
-                        [  2**0,  2**1,  ],  ]
+                        [  2**0,  2**3,  ],
+                        [  2**0,  2**3,  2**6,  ],  ]
 
 # optimizer_types = ['SGD', 'ADAM']
 optimizer_types = ['ADAM']
 
-
-def get_info( event_start_read_GPU_info, queue_gpu_info ):    
-    while True:
-        event_start_read_GPU_info.wait()
-        # print('Event cleared')
-        event_start_read_GPU_info.clear()
-        queue_gpu_info.put(return_gpu_info())      
     
 if __name__ == '__main__':
     
