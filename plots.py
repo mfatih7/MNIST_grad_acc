@@ -1,6 +1,7 @@
-import time
-
+import numpy as np
 import matplotlib.pyplot as plt
+
+import time
 
 def plot_GPU_mem_used( batch_sizes, optimizing_batches, gpu_mem_usage):
     
@@ -27,10 +28,9 @@ def plot_GPU_mem_used( batch_sizes, optimizing_batches, gpu_mem_usage):
     
 def plot_train_time( batch_sizes, optimizing_batches, train_time):
     
-    print('hi')
+    x = np.arange(len(batch_sizes), 0, -1)
     
-    x = batch_sizes
-    
+    # x = batch_sizes    
     train_time_mean = train_time.mean(axis=1)
     
     x_lines = []
@@ -39,22 +39,21 @@ def plot_train_time( batch_sizes, optimizing_batches, train_time):
     
     list_ind = 0
     for i in range( len(batch_sizes)):
-        x_lines.append( batch_sizes[ : i+1 ] )
-        
+        x_lines.append( x[ : i+1 ] )        
         y_lines.append( train_time_mean[ list_ind : list_ind + len( optimizing_batches[i] ) ] )
-        list_ind = list_ind + len( optimizing_batches[i] )
-        
-        legend_names.append( 'Backprop Batch ' + str(x[i]))
+        list_ind = list_ind + len( optimizing_batches[i] )        
+        legend_names.append( str(batch_sizes[i]) )
     
     for x_line, y_line, legend_name in zip(x_lines, y_lines, legend_names):
-        print(x_line)
-        print(y_line)
         plt.plot(x_line, y_line, label=legend_name, marker='o')
+        
     plt.grid(True)
-    plt.legend()
+    leg = plt.legend(title='Backprop Batch')
+    leg.set_alpha(0)
     plt.ylabel('Average Training Time')
     plt.xlabel('Optimizing Batch')
-            
+    
+    plt.xticks( x, [str(batch_size) for batch_size in batch_sizes] )
 
 if __name__ == '__main__':
     while True:
