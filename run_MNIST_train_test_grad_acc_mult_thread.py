@@ -5,11 +5,11 @@ import threading
 import queue
 
 from utils import get_info
+from plots import plot_GPU_mem_used 
 from plots import plot_train_time 
 
 data_path = './'
 input_size = 28
-input_expand_ratio = 2 # 1, 2, 4, 8, 16, 32, 64
 bn_or_gn = 'bn'
 bn_or_gn = 'gn'
 
@@ -18,6 +18,8 @@ learning_rate = 0.001
 n_epochs = 2
 num_workers = 1
 
+# input_expand_ratios = [ 1, 2, 4, 8, 16, 32, 64 ]
+input_expand_ratios = [1, 2, 4] # 1, 2, 4, 8, 16, 32, 64
 
 # batch_sizes = [  256,
 #                  128, 
@@ -57,7 +59,7 @@ if __name__ == '__main__':
     training_thread = threading.Thread( target = MNIST_train_test_grad_acc_3.train_and_test, args=(
                                                                                                         data_path,
                                                                                                         input_size,
-                                                                                                        input_expand_ratio,
+                                                                                                        input_expand_ratios,
                                                                                                         learning_rate,
                                                                                                         n_epochs,
                                                                                                         num_workers,
@@ -90,6 +92,7 @@ if __name__ == '__main__':
     device_name         = training_results[8]
     device_mem_cap      = training_results[9]
     
-    plot_train_time( batch_sizes, optimizing_batches, train_time_vec)
+    plot_GPU_mem_used( input_size, input_expand_ratios, batch_sizes, optimizing_batches, optimizer_types, train_gpu_mem_usage, device_name, device_mem_cap)
+    plot_train_time( input_size, input_expand_ratios, batch_sizes, optimizing_batches, optimizer_types, train_time_vec, device_name, device_mem_cap)
         
     
