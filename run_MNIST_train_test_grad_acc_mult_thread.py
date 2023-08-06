@@ -19,7 +19,7 @@ n_epochs = 2
 num_workers = 1
 
 # input_expand_ratios = [ 1, 2, 4, 8, 16, 32, 64 ]
-input_expand_ratios = [1, 2, 4] # 1, 2, 4, 8, 16, 32, 64
+input_expand_ratios = [2] # 1, 2, 4, 8, 16, 32, 64
 
 # batch_sizes = [  256,
 #                  128, 
