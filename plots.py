@@ -1,9 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 import time
 
-def plot_GPU_mem_used( input_size, input_expand_ratios, batch_sizes, optimizing_batches, optimizer_types, gpu_mem_usage, device_name, device_mem_cap):
+def plot_GPU_mem_used( output_path, input_size, input_expand_ratios, batch_sizes, optimizing_batches, optimizer_types, gpu_mem_usage, device_name, device_mem_cap):
     
     gpu_mem_usage_mean_of_epochs = gpu_mem_usage.mean(axis=1)
     
@@ -33,14 +34,20 @@ def plot_GPU_mem_used( input_size, input_expand_ratios, batch_sizes, optimizing_
             plt.plot(x_line, y_line, label=legend_name, marker='o')
             
         plt.grid(True)
-        leg = plt.legend(title='Inpu Size', fontsize = 'small')
+        plt.legend(title='Inpu Size', fontsize = 'small')
         plt.ylabel('Average GPU Memory Usage')
         plt.xlabel('Batch')
         plt.title( device_name + ' ' + str(device_mem_cap) + ' MB ' + optimizer_type + ' opt' )
         
         plt.xticks( x, [str(batch_size) for batch_size in batch_sizes] )
+        
+        plot_file_name = 'gpu_mem_usage' + optimizer_type + '.png'
+        folder_path = os.path.join(output_path, device_name)
+        if not os.path.exists( folder_path ):
+            os.makedirs(folder_path)            
+        plt.savefig( os.path.join(folder_path, plot_file_name), dpi=300)
     
-def plot_train_time( input_size, input_expand_ratios, batch_sizes, optimizing_batches, optimizer_types, train_time, device_name, device_mem_cap):
+def plot_train_time( output_path, input_size, input_expand_ratios, batch_sizes, optimizing_batches, optimizer_types, train_time, device_name, device_mem_cap):
     
     train_time_mean = train_time.mean(axis=1)
     
@@ -67,12 +74,18 @@ def plot_train_time( input_size, input_expand_ratios, batch_sizes, optimizing_ba
                 plt.plot(x_line, y_line, label=legend_name, marker='o')
                 
             plt.grid(True)
-            leg = plt.legend(title='Batch', fontsize = 'small')
+            plt.legend(title='Batch', fontsize = 'small')
             plt.ylabel('Average Training Time(sec)')
             plt.xlabel('Optimizing Batch')
             plt.title( device_name + ' ' + str(device_mem_cap) + ' MB ' + str(input_res) + 'x' + str(input_res) + ' in ' + optimizer_type + ' opt' )
             
             plt.xticks( x, [str(batch_size) for batch_size in batch_sizes] )
+            
+            plot_file_name = 'gpu_mem_usage' + '_' + str(input_res) + 'x' + str(input_res) + '_' + optimizer_type + '.png'
+            folder_path = os.path.join(output_path, device_name)
+            if not os.path.exists( folder_path ):
+                os.makedirs(folder_path)            
+            plt.savefig( os.path.join(folder_path, plot_file_name), dpi=300)
 
 if __name__ == '__main__':
     while True:

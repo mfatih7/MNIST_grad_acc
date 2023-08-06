@@ -9,6 +9,7 @@ from plots import plot_GPU_mem_used
 from plots import plot_train_time 
 
 data_path = './'
+output_path = './outputs'
 input_size = 28
 bn_or_gn = 'bn'
 bn_or_gn = 'gn'
@@ -92,7 +93,7 @@ if __name__ == '__main__':
     device_name         = training_results[8]
     device_mem_cap      = training_results[9]
     
-    plot_GPU_mem_used( input_size, input_expand_ratios, batch_sizes, optimizing_batches, optimizer_types, train_gpu_mem_usage, device_name, device_mem_cap)
-    plot_train_time( input_size, input_expand_ratios, batch_sizes, optimizing_batches, optimizer_types, train_time_vec, device_name, device_mem_cap)
+    plot_GPU_mem_used( output_path, input_size, input_expand_ratios, batch_sizes, optimizing_batches, optimizer_types, train_gpu_mem_usage, device_name, device_mem_cap)
+    plot_train_time( output_path, input_size, input_expand_ratios, batch_sizes, optimizing_batches, optimizer_types, train_time_vec, device_name, device_mem_cap)
         
     
