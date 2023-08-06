@@ -7,7 +7,7 @@ def plot_GPU_mem_used( input_size, input_expand_ratios, batch_sizes, optimizing_
     
     gpu_mem_usage_mean_of_epochs = gpu_mem_usage.mean(axis=1)
     
-    x = np.arange(len(input_expand_ratios), 0, -1)
+    x = np.arange(len(batch_sizes), 0, -1)
     
     for optimizer_type in optimizer_types:
     
