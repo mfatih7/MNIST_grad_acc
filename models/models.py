@@ -191,7 +191,7 @@ class CNN_Basic_28_16(nn.Module):
           
         #N, C=1, H=28*(2**4), W=28*(2**4)
 ##############################################################
-        self.Conv2d_N_REL_A3 = Conv2d_N_REL( in_channels=24, out_channels=32, kernel_size=(2,2), stride=(2,2), padding=(0,0), bn_or_gn=bn_or_gn )
+        self.Conv2d_N_REL_A3 = Conv2d_N_REL( in_channels=1, out_channels=32, kernel_size=(2,2), stride=(2,2), padding=(0,0), bn_or_gn=bn_or_gn )
         
         #N, C=16+8*2, H=28*(2**3), W=28*(2**3)
 ##############################################################
@@ -333,7 +333,7 @@ class CNN_Basic_28_4(nn.Module):
         
         #N, C=1, H=28*(2**2), W=28*(2**2)
 ##############################################################
-        self.Conv2d_N_REL_A5 = Conv2d_N_REL( in_channels=40, out_channels=48, kernel_size=(2,2), stride=(2,2), padding=(0,0), bn_or_gn=bn_or_gn )
+        self.Conv2d_N_REL_A5 = Conv2d_N_REL( in_channels=1, out_channels=48, kernel_size=(2,2), stride=(2,2), padding=(0,0), bn_or_gn=bn_or_gn )
 
         #N, C=16+8*4, H=28*(2**1), W=28*(2**1)
 ##############################################################
