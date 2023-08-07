@@ -13,8 +13,8 @@ output_path = './outputs'
 input_size = 28
 bn_or_gn = 'bn'
 bn_or_gn = 'gn'
-en_checkpointing = False
-# en_checkpointing = True
+en_grad_checkpointing = False
+# en_grad_checkpointing = True
 
 # Hyperparameters
 learning_rate = 0.001
@@ -69,7 +69,7 @@ if __name__ == '__main__':
                                                                                                         num_workers,
                                                                                                         batch_sizes,
                                                                                                         bn_or_gn,
-                                                                                                        en_checkpointing,
+                                                                                                        en_grad_checkpointing,
                                                                                                         optimizing_batches,
                                                                                                         optimizer_types,
                                                                                                         event_start_read_GPU_info,
@@ -85,7 +85,7 @@ if __name__ == '__main__':
     #                                                 num_workers,
     #                                                 batch_sizes,
     #                                                 bn_or_gn,
-    #                                                 en_checkpointing,
+    #                                                 en_grad_checkpointing,
     #                                                 optimizing_batches,
     #                                                 optimizer_types,
     #                                                 event_start_read_GPU_info,

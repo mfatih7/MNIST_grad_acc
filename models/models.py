@@ -27,10 +27,10 @@ class Conv2d_N_REL(nn.Module):
         return x        
 
 class CNN_Basic_28_64(nn.Module):
-    def __init__(self, bn_or_gn, en_checkpointing):
+    def __init__(self, bn_or_gn, en_grad_checkpointing):
         super(CNN_Basic_28_64, self).__init__()
         
-        self.en_checkpointing = en_checkpointing
+        self.en_grad_checkpointing = en_grad_checkpointing
         
         #N, C=1, H=28*(2**6), W=28*(2**6)
 #############################################################
@@ -91,7 +91,7 @@ class CNN_Basic_28_64(nn.Module):
         
     def forward(self, x):
         
-        if(self.en_checkpointing == False or self.training == False):
+        if(self.en_grad_checkpointing == False or self.training == False):
             x = self.Conv2d_N_REL_A1(x)
             x = self.Conv2d_N_REL_A2(x)
             x = self.Conv2d_N_REL_A3(x)
@@ -125,10 +125,10 @@ class CNN_Basic_28_64(nn.Module):
         return x
     
 class CNN_Basic_28_32(nn.Module):
-    def __init__(self, bn_or_gn, en_checkpointing):
+    def __init__(self, bn_or_gn, en_grad_checkpointing):
         super(CNN_Basic_28_32, self).__init__()
         
-        self.en_checkpointing = en_checkpointing
+        self.en_grad_checkpointing = en_grad_checkpointing
         
         #N, C=1, H=28*(2**5), W=28*(2**5)
 ##############################################################
@@ -185,7 +185,7 @@ class CNN_Basic_28_32(nn.Module):
         
     def forward(self, x):
         
-        if(self.en_checkpointing == False or self.training == False):
+        if(self.en_grad_checkpointing == False or self.training == False):
             x = self.Conv2d_N_REL_A2(x)
             x = self.Conv2d_N_REL_A3(x)
             x = self.Conv2d_N_REL_A4(x)
@@ -218,10 +218,10 @@ class CNN_Basic_28_32(nn.Module):
     
     
 class CNN_Basic_28_16(nn.Module):
-    def __init__(self, bn_or_gn, en_checkpointing):
+    def __init__(self, bn_or_gn, en_grad_checkpointing):
         super(CNN_Basic_28_16, self).__init__()
         
-        self.en_checkpointing = en_checkpointing        
+        self.en_grad_checkpointing = en_grad_checkpointing        
           
         #N, C=1, H=28*(2**4), W=28*(2**4)
 ##############################################################
@@ -274,7 +274,7 @@ class CNN_Basic_28_16(nn.Module):
         
     def forward(self, x):
 
-        if(self.en_checkpointing == False or self.training == False):
+        if(self.en_grad_checkpointing == False or self.training == False):
             x = self.Conv2d_N_REL_A3(x)
             x = self.Conv2d_N_REL_A4(x)
             x = self.Conv2d_N_REL_A5(x)
@@ -305,10 +305,10 @@ class CNN_Basic_28_16(nn.Module):
 
 
 class CNN_Basic_28_8(nn.Module):
-    def __init__(self, bn_or_gn, en_checkpointing):
+    def __init__(self, bn_or_gn, en_grad_checkpointing):
         super(CNN_Basic_28_8, self).__init__()
         
-        self.en_checkpointing = en_checkpointing
+        self.en_grad_checkpointing = en_grad_checkpointing
         
         #N, C=1, H=28*(2**3), W=28*(2**3)
 ##############################################################
@@ -357,7 +357,7 @@ class CNN_Basic_28_8(nn.Module):
         
     def forward(self, x):
 
-        if(self.en_checkpointing == False or self.training == False):
+        if(self.en_grad_checkpointing == False or self.training == False):
             x = self.Conv2d_N_REL_A4(x)
             x = self.Conv2d_N_REL_A5(x)
             x = self.Conv2d_N_REL_A6(x)        
@@ -386,10 +386,10 @@ class CNN_Basic_28_8(nn.Module):
 
 
 class CNN_Basic_28_4(nn.Module):
-    def __init__(self, bn_or_gn, en_checkpointing):
+    def __init__(self, bn_or_gn, en_grad_checkpointing):
         super(CNN_Basic_28_4, self).__init__()
         
-        self.en_checkpointing = en_checkpointing
+        self.en_grad_checkpointing = en_grad_checkpointing
         
         #N, C=1, H=28*(2**2), W=28*(2**2)
 ##############################################################
@@ -434,7 +434,7 @@ class CNN_Basic_28_4(nn.Module):
         
     def forward(self, x):
 
-        if(self.en_checkpointing == False or self.training == False):
+        if(self.en_grad_checkpointing == False or self.training == False):
             x = self.Conv2d_N_REL_A5(x)
             x = self.Conv2d_N_REL_A6(x)        
 
@@ -460,10 +460,10 @@ class CNN_Basic_28_4(nn.Module):
         return x
 
 class CNN_Basic_28_2(nn.Module):
-    def __init__(self, bn_or_gn, en_checkpointing):
+    def __init__(self, bn_or_gn, en_grad_checkpointing):
         super(CNN_Basic_28_2, self).__init__()
         
-        self.en_checkpointing = en_checkpointing
+        self.en_grad_checkpointing = en_grad_checkpointing
         
         #N, C=1, H=28*(2**1), W=28*(2**1)
 ##############################################################
@@ -508,7 +508,7 @@ class CNN_Basic_28_2(nn.Module):
         
     def forward(self, x):
         
-        if(self.en_checkpointing == False or self.training == False):
+        if(self.en_grad_checkpointing == False or self.training == False):
             x = self.Conv2d_N_REL_A6(x)        
 
             x = self.Conv2d_N_REL_1(x)
@@ -532,10 +532,10 @@ class CNN_Basic_28_2(nn.Module):
         return x    
     
 class CNN_Basic_28_1(nn.Module):
-    def __init__(self, bn_or_gn, en_checkpointing):
+    def __init__(self, bn_or_gn, en_grad_checkpointing):
         super(CNN_Basic_28_1, self).__init__()
         
-        self.en_checkpointing = en_checkpointing
+        self.en_grad_checkpointing = en_grad_checkpointing
 
         #N, C=1, H=28, W=28
 ##############################################################
@@ -570,7 +570,7 @@ class CNN_Basic_28_1(nn.Module):
         
     def forward(self, x):
         
-        if(self.en_checkpointing == False or self.training == False):
+        if(self.en_grad_checkpointing == False or self.training == False):
             x = self.Conv2d_N_REL_1(x)
             x = self.Conv2d_N_REL_2(x)
             x = self.Conv2d_N_REL_3(x)

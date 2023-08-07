@@ -24,7 +24,7 @@ def train_and_test( data_path,
                     num_workers,
                     batch_sizes,
                     bn_or_gn,
-                    en_checkpointing,
+                    en_grad_checkpointing,
                     optimizing_batches,
                     optimizer_types,
                     event_start_read_GPU_info,
@@ -76,7 +76,7 @@ def train_and_test( data_path,
                     
                     # device = 'cpu'
                     
-                    model = get_model( input_expand_ratio, bn_or_gn, en_checkpointing ).to(device)
+                    model = get_model( input_expand_ratio, bn_or_gn, en_grad_checkpointing ).to(device)
                     criterion = nn.CrossEntropyLoss()          
                     
                     summary(model, (1, input_size*input_expand_ratio, input_size*input_expand_ratio) )
