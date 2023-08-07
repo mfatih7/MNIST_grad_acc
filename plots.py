@@ -52,7 +52,7 @@ def plot_train_time( output_path, input_size, input_expand_ratios, batch_sizes, 
     train_time_mean = train_time.mean(axis=1)
     
     x = np.arange(len(batch_sizes), 0, -1)
-
+    list_ind = 0
     for input_expand_ratio in input_expand_ratios:
         for optimizer_type in optimizer_types:
             plt.figure()
@@ -61,9 +61,8 @@ def plot_train_time( output_path, input_size, input_expand_ratios, batch_sizes, 
                 
             x_lines = []
             y_lines = []
-            legend_names = []
+            legend_names = []            
             
-            list_ind = 0
             for i in range( len(batch_sizes)):
                 x_lines.append( x[ : i+1 ] )        
                 y_lines.append( train_time_mean[ list_ind : list_ind + len( optimizing_batches[i] ) ] )
