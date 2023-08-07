@@ -15,6 +15,7 @@ from utils import trig_GPU_read
 from utils import get_info_from_GPU_queue
 
 from models.models import get_model
+from models.torchSummaryWrapper import get_torchSummaryWrapper
 
 def train_and_test( data_path,
                     input_size,
@@ -79,7 +80,10 @@ def train_and_test( data_path,
                     model = get_model( input_expand_ratio, bn_or_gn, en_grad_checkpointing ).to(device)
                     criterion = nn.CrossEntropyLoss()          
                     
-                    summary(model, (1, input_size*input_expand_ratio, input_size*input_expand_ratio) )
+                    # if(en_grad_checkpointing==False):
+                    #     summary(model, (1, input_size*input_expand_ratio, input_size*input_expand_ratio) )
+                    # else:                    
+                    #     summary(get_torchSummaryWrapper( model ), (1, input_size*input_expand_ratio, input_size*input_expand_ratio) )                        
         
                     if(optimizer_type == 'Adam'):
                         optimizer = optim.Adam(model.parameters(), lr=learning_rate)
