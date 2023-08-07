@@ -1,6 +1,8 @@
 import torch.nn as nn
 from torch.utils.checkpoint import checkpoint
 
+# Checkpointing can be used with a module or a function of a module
+
 class Conv2d_N_REL(nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size, stride, padding, bn_or_gn):
         super(Conv2d_N_REL, self).__init__()
@@ -25,8 +27,10 @@ class Conv2d_N_REL(nn.Module):
         return x        
 
 class CNN_Basic_28_64(nn.Module):
-    def __init__(self, bn_or_gn):
-        super(CNN_Basic_28_64, self).__init__()        
+    def __init__(self, bn_or_gn, en_checkpointing):
+        super(CNN_Basic_28_64, self).__init__()
+        
+        self.en_checkpointing = en_checkpointing
         
         #N, C=1, H=28*(2**6), W=28*(2**6)
 #############################################################
@@ -87,18 +91,32 @@ class CNN_Basic_28_64(nn.Module):
         
     def forward(self, x):
         
-        x = self.Conv2d_N_REL_A1(x)
-        x = self.Conv2d_N_REL_A2(x)
-        x = self.Conv2d_N_REL_A3(x)
-        x = self.Conv2d_N_REL_A4(x)
-        x = self.Conv2d_N_REL_A5(x)
-        x = self.Conv2d_N_REL_A6(x)
-        
-        x = self.Conv2d_N_REL_1(x)
-        x = self.Conv2d_N_REL_2(x)
-        x = self.Conv2d_N_REL_3(x)
-        x = self.Conv2d_N_REL_4(x)
-        x = self.Conv2d_N_REL_5(x)
+        if(self.en_checkpointing == False or self.training == False):
+            x = self.Conv2d_N_REL_A1(x)
+            x = self.Conv2d_N_REL_A2(x)
+            x = self.Conv2d_N_REL_A3(x)
+            x = self.Conv2d_N_REL_A4(x)
+            x = self.Conv2d_N_REL_A5(x)
+            x = self.Conv2d_N_REL_A6(x)        
+
+            x = self.Conv2d_N_REL_1(x)
+            x = self.Conv2d_N_REL_2(x)
+            x = self.Conv2d_N_REL_3(x)
+            x = self.Conv2d_N_REL_4(x)
+            x = self.Conv2d_N_REL_5(x)
+        else:
+            x = checkpoint( self.Conv2d_N_REL_A1, x )
+            x = checkpoint( self.Conv2d_N_REL_A2, x )
+            x = checkpoint( self.Conv2d_N_REL_A3, x )
+            x = checkpoint( self.Conv2d_N_REL_A4, x )
+            x = checkpoint( self.Conv2d_N_REL_A5, x )
+            x = checkpoint( self.Conv2d_N_REL_A6, x )
+            
+            x = checkpoint( self.Conv2d_N_REL_1, x )
+            x = checkpoint( self.Conv2d_N_REL_2, x )
+            x = checkpoint( self.Conv2d_N_REL_3, x )
+            x = checkpoint( self.Conv2d_N_REL_4, x )
+            x = checkpoint( self.Conv2d_N_REL_5, x )
         
         x = x.view( -1, 96 * 1 * 1 )
         x = self.non_lin( self.fc1(x) )
@@ -107,8 +125,10 @@ class CNN_Basic_28_64(nn.Module):
         return x
     
 class CNN_Basic_28_32(nn.Module):
-    def __init__(self, bn_or_gn):
-        super(CNN_Basic_28_32, self).__init__()        
+    def __init__(self, bn_or_gn, en_checkpointing):
+        super(CNN_Basic_28_32, self).__init__()
+        
+        self.en_checkpointing = en_checkpointing
         
         #N, C=1, H=28*(2**5), W=28*(2**5)
 ##############################################################
@@ -165,17 +185,30 @@ class CNN_Basic_28_32(nn.Module):
         
     def forward(self, x):
         
-        x = self.Conv2d_N_REL_A2(x)
-        x = self.Conv2d_N_REL_A3(x)
-        x = self.Conv2d_N_REL_A4(x)
-        x = self.Conv2d_N_REL_A5(x)
-        x = self.Conv2d_N_REL_A6(x)
-        
-        x = self.Conv2d_N_REL_1(x)
-        x = self.Conv2d_N_REL_2(x)
-        x = self.Conv2d_N_REL_3(x)
-        x = self.Conv2d_N_REL_4(x)
-        x = self.Conv2d_N_REL_5(x)
+        if(self.en_checkpointing == False or self.training == False):
+            x = self.Conv2d_N_REL_A2(x)
+            x = self.Conv2d_N_REL_A3(x)
+            x = self.Conv2d_N_REL_A4(x)
+            x = self.Conv2d_N_REL_A5(x)
+            x = self.Conv2d_N_REL_A6(x)        
+
+            x = self.Conv2d_N_REL_1(x)
+            x = self.Conv2d_N_REL_2(x)
+            x = self.Conv2d_N_REL_3(x)
+            x = self.Conv2d_N_REL_4(x)
+            x = self.Conv2d_N_REL_5(x)
+        else:
+            x = checkpoint( self.Conv2d_N_REL_A2, x )
+            x = checkpoint( self.Conv2d_N_REL_A3, x )
+            x = checkpoint( self.Conv2d_N_REL_A4, x )
+            x = checkpoint( self.Conv2d_N_REL_A5, x )
+            x = checkpoint( self.Conv2d_N_REL_A6, x )
+            
+            x = checkpoint( self.Conv2d_N_REL_1, x )
+            x = checkpoint( self.Conv2d_N_REL_2, x )
+            x = checkpoint( self.Conv2d_N_REL_3, x )
+            x = checkpoint( self.Conv2d_N_REL_4, x )
+            x = checkpoint( self.Conv2d_N_REL_5, x )
         
         x = x.view( -1, 96 * 1 * 1 )
         x = self.non_lin( self.fc1(x) )
@@ -185,9 +218,10 @@ class CNN_Basic_28_32(nn.Module):
     
     
 class CNN_Basic_28_16(nn.Module):
-    def __init__(self, bn_or_gn):
+    def __init__(self, bn_or_gn, en_checkpointing):
         super(CNN_Basic_28_16, self).__init__()
         
+        self.en_checkpointing = en_checkpointing        
           
         #N, C=1, H=28*(2**4), W=28*(2**4)
 ##############################################################
@@ -240,16 +274,28 @@ class CNN_Basic_28_16(nn.Module):
         
     def forward(self, x):
 
-        x = self.Conv2d_N_REL_A3(x)
-        x = self.Conv2d_N_REL_A4(x)
-        x = self.Conv2d_N_REL_A5(x)
-        x = self.Conv2d_N_REL_A6(x)
-        
-        x = self.Conv2d_N_REL_1(x)
-        x = self.Conv2d_N_REL_2(x)
-        x = self.Conv2d_N_REL_3(x)
-        x = self.Conv2d_N_REL_4(x)
-        x = self.Conv2d_N_REL_5(x)
+        if(self.en_checkpointing == False or self.training == False):
+            x = self.Conv2d_N_REL_A3(x)
+            x = self.Conv2d_N_REL_A4(x)
+            x = self.Conv2d_N_REL_A5(x)
+            x = self.Conv2d_N_REL_A6(x)        
+
+            x = self.Conv2d_N_REL_1(x)
+            x = self.Conv2d_N_REL_2(x)
+            x = self.Conv2d_N_REL_3(x)
+            x = self.Conv2d_N_REL_4(x)
+            x = self.Conv2d_N_REL_5(x)
+        else:
+            x = checkpoint( self.Conv2d_N_REL_A3, x )
+            x = checkpoint( self.Conv2d_N_REL_A4, x )
+            x = checkpoint( self.Conv2d_N_REL_A5, x )
+            x = checkpoint( self.Conv2d_N_REL_A6, x )
+            
+            x = checkpoint( self.Conv2d_N_REL_1, x )
+            x = checkpoint( self.Conv2d_N_REL_2, x )
+            x = checkpoint( self.Conv2d_N_REL_3, x )
+            x = checkpoint( self.Conv2d_N_REL_4, x )
+            x = checkpoint( self.Conv2d_N_REL_5, x )
         
         x = x.view( -1, 96 * 1 * 1 )
         x = self.non_lin( self.fc1(x) )
@@ -259,9 +305,10 @@ class CNN_Basic_28_16(nn.Module):
 
 
 class CNN_Basic_28_8(nn.Module):
-    def __init__(self, bn_or_gn):
+    def __init__(self, bn_or_gn, en_checkpointing):
         super(CNN_Basic_28_8, self).__init__()
-
+        
+        self.en_checkpointing = en_checkpointing
         
         #N, C=1, H=28*(2**3), W=28*(2**3)
 ##############################################################
@@ -310,15 +357,26 @@ class CNN_Basic_28_8(nn.Module):
         
     def forward(self, x):
 
-        x = self.Conv2d_N_REL_A4(x)
-        x = self.Conv2d_N_REL_A5(x)
-        x = self.Conv2d_N_REL_A6(x)
-        
-        x = self.Conv2d_N_REL_1(x)
-        x = self.Conv2d_N_REL_2(x)
-        x = self.Conv2d_N_REL_3(x)
-        x = self.Conv2d_N_REL_4(x)
-        x = self.Conv2d_N_REL_5(x)
+        if(self.en_checkpointing == False or self.training == False):
+            x = self.Conv2d_N_REL_A4(x)
+            x = self.Conv2d_N_REL_A5(x)
+            x = self.Conv2d_N_REL_A6(x)        
+
+            x = self.Conv2d_N_REL_1(x)
+            x = self.Conv2d_N_REL_2(x)
+            x = self.Conv2d_N_REL_3(x)
+            x = self.Conv2d_N_REL_4(x)
+            x = self.Conv2d_N_REL_5(x)
+        else:
+            x = checkpoint( self.Conv2d_N_REL_A4, x )
+            x = checkpoint( self.Conv2d_N_REL_A5, x )
+            x = checkpoint( self.Conv2d_N_REL_A6, x )
+            
+            x = checkpoint( self.Conv2d_N_REL_1, x )
+            x = checkpoint( self.Conv2d_N_REL_2, x )
+            x = checkpoint( self.Conv2d_N_REL_3, x )
+            x = checkpoint( self.Conv2d_N_REL_4, x )
+            x = checkpoint( self.Conv2d_N_REL_5, x )  
         
         x = x.view( -1, 96 * 1 * 1 )
         x = self.non_lin( self.fc1(x) )
@@ -328,8 +386,10 @@ class CNN_Basic_28_8(nn.Module):
 
 
 class CNN_Basic_28_4(nn.Module):
-    def __init__(self, bn_or_gn):
+    def __init__(self, bn_or_gn, en_checkpointing):
         super(CNN_Basic_28_4, self).__init__()
+        
+        self.en_checkpointing = en_checkpointing
         
         #N, C=1, H=28*(2**2), W=28*(2**2)
 ##############################################################
@@ -374,14 +434,24 @@ class CNN_Basic_28_4(nn.Module):
         
     def forward(self, x):
 
-        x = self.Conv2d_N_REL_A5(x)
-        x = self.Conv2d_N_REL_A6(x)
-        
-        x = self.Conv2d_N_REL_1(x)
-        x = self.Conv2d_N_REL_2(x)
-        x = self.Conv2d_N_REL_3(x)
-        x = self.Conv2d_N_REL_4(x)
-        x = self.Conv2d_N_REL_5(x)
+        if(self.en_checkpointing == False or self.training == False):
+            x = self.Conv2d_N_REL_A5(x)
+            x = self.Conv2d_N_REL_A6(x)        
+
+            x = self.Conv2d_N_REL_1(x)
+            x = self.Conv2d_N_REL_2(x)
+            x = self.Conv2d_N_REL_3(x)
+            x = self.Conv2d_N_REL_4(x)
+            x = self.Conv2d_N_REL_5(x)
+        else:
+            x = checkpoint( self.Conv2d_N_REL_A5, x )
+            x = checkpoint( self.Conv2d_N_REL_A6, x )
+            
+            x = checkpoint( self.Conv2d_N_REL_1, x )
+            x = checkpoint( self.Conv2d_N_REL_2, x )
+            x = checkpoint( self.Conv2d_N_REL_3, x )
+            x = checkpoint( self.Conv2d_N_REL_4, x )
+            x = checkpoint( self.Conv2d_N_REL_5, x )   
         
         x = x.view( -1, 96 * 1 * 1 )
         x = self.non_lin( self.fc1(x) )
@@ -389,11 +459,11 @@ class CNN_Basic_28_4(nn.Module):
         
         return x
 
-
-
 class CNN_Basic_28_2(nn.Module):
-    def __init__(self, bn_or_gn):
+    def __init__(self, bn_or_gn, en_checkpointing):
         super(CNN_Basic_28_2, self).__init__()
+        
+        self.en_checkpointing = en_checkpointing
         
         #N, C=1, H=28*(2**1), W=28*(2**1)
 ##############################################################
@@ -432,15 +502,28 @@ class CNN_Basic_28_2(nn.Module):
         
         self.non_lin = nn.ReLU()
         
-    def forward(self, x):
-
-        x = self.Conv2d_N_REL_A6(x)
+    def block(self, x, conv):
+        x = conv(x)
+        return x
         
-        x = self.Conv2d_N_REL_1(x)
-        x = self.Conv2d_N_REL_2(x)
-        x = self.Conv2d_N_REL_3(x)
-        x = self.Conv2d_N_REL_4(x)
-        x = self.Conv2d_N_REL_5(x)
+    def forward(self, x):
+        
+        if(self.en_checkpointing == False or self.training == False):
+            x = self.Conv2d_N_REL_A6(x)        
+
+            x = self.Conv2d_N_REL_1(x)
+            x = self.Conv2d_N_REL_2(x)
+            x = self.Conv2d_N_REL_3(x)
+            x = self.Conv2d_N_REL_4(x)
+            x = self.Conv2d_N_REL_5(x)
+        else:            
+            x = checkpoint( self.Conv2d_N_REL_A6, x )
+            
+            x = checkpoint( self.Conv2d_N_REL_1, x )
+            x = checkpoint( self.Conv2d_N_REL_2, x )
+            x = checkpoint( self.Conv2d_N_REL_3, x )
+            x = checkpoint( self.Conv2d_N_REL_4, x )
+            x = checkpoint( self.Conv2d_N_REL_5, x )  
         
         x = x.view( -1, 96 * 1 * 1 )
         x = self.non_lin( self.fc1(x) )
@@ -449,9 +532,10 @@ class CNN_Basic_28_2(nn.Module):
         return x    
     
 class CNN_Basic_28_1(nn.Module):
-    def __init__(self, bn_or_gn):
+    def __init__(self, bn_or_gn, en_checkpointing):
         super(CNN_Basic_28_1, self).__init__()
         
+        self.en_checkpointing = en_checkpointing
 
         #N, C=1, H=28, W=28
 ##############################################################
@@ -486,12 +570,19 @@ class CNN_Basic_28_1(nn.Module):
         
     def forward(self, x):
         
-        x = self.Conv2d_N_REL_1(x)
-        x = self.Conv2d_N_REL_2(x)
-        x = self.Conv2d_N_REL_3(x)
-        x = self.Conv2d_N_REL_4(x)
-        x = self.Conv2d_N_REL_5(x)
-        
+        if(self.en_checkpointing == False or self.training == False):
+            x = self.Conv2d_N_REL_1(x)
+            x = self.Conv2d_N_REL_2(x)
+            x = self.Conv2d_N_REL_3(x)
+            x = self.Conv2d_N_REL_4(x)
+            x = self.Conv2d_N_REL_5(x)
+        else:            
+            x = checkpoint( self.block, x, self.Conv2d_N_REL_1 )
+            x = checkpoint( self.block, x, self.Conv2d_N_REL_2 )
+            x = checkpoint( self.block, x, self.Conv2d_N_REL_3 )
+            x = checkpoint( self.block, x, self.Conv2d_N_REL_4 )
+            x = checkpoint( self.block, x, self.Conv2d_N_REL_5 )
+
         x = x.view( -1, 96 * 1 * 1 )
         x = self.non_lin( self.fc1(x) )
         x = self.fc2(x)
@@ -584,22 +675,22 @@ class CNN_Basic(nn.Module):
         
         return x
 
-def get_model( input_expand_ratio, bn_or_gn ):
+def get_model( input_expand_ratio, bn_or_gn, en_checkpointing ):
     
     if( input_expand_ratio == 64):    
-        return CNN_Basic_28_64( bn_or_gn )
+        return CNN_Basic_28_64( bn_or_gn, en_checkpointing )
     elif( input_expand_ratio == 32):    
-        return CNN_Basic_28_32( bn_or_gn )
+        return CNN_Basic_28_32( bn_or_gn, en_checkpointing )
     elif( input_expand_ratio == 16):    
-        return CNN_Basic_28_16( bn_or_gn )
+        return CNN_Basic_28_16( bn_or_gn, en_checkpointing )
     elif( input_expand_ratio == 8):    
-        return CNN_Basic_28_8( bn_or_gn )
+        return CNN_Basic_28_8( bn_or_gn, en_checkpointing )
     elif( input_expand_ratio == 4):    
-        return CNN_Basic_28_4( bn_or_gn )
+        return CNN_Basic_28_4( bn_or_gn, en_checkpointing )
     elif( input_expand_ratio == 2):    
-        return CNN_Basic_28_2( bn_or_gn )
+        return CNN_Basic_28_2( bn_or_gn, en_checkpointing )
     elif( input_expand_ratio == 1):    
-        return CNN_Basic_28_1( bn_or_gn )
+        return CNN_Basic_28_1( bn_or_gn, en_checkpointing )
     # elif( input_expand_ratio == 1):    
     #     return CNN_Basic( )
     else:

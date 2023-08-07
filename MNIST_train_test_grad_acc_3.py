@@ -24,6 +24,7 @@ def train_and_test( data_path,
                     num_workers,
                     batch_sizes,
                     bn_or_gn,
+                    en_checkpointing,
                     optimizing_batches,
                     optimizer_types,
                     event_start_read_GPU_info,
@@ -75,7 +76,7 @@ def train_and_test( data_path,
                     
                     # device = 'cpu'
                     
-                    model = get_model( input_expand_ratio, bn_or_gn ).to(device)
+                    model = get_model( input_expand_ratio, bn_or_gn, en_checkpointing ).to(device)
                     criterion = nn.CrossEntropyLoss()          
                     
                     summary(model, (1, input_size*input_expand_ratio, input_size*input_expand_ratio) )
@@ -117,6 +118,9 @@ def train_and_test( data_path,
                         for i, (images, labels) in enumerate(train_dataloader):
                             
                             trig_GPU_read( queue_gpu_info, event_start_read_GPU_info )
+                            
+                            images.requires_grad = True
+                            # print(images.requires_grad)
                             
                             images, labels = images.to(device), labels.to(device)
                             

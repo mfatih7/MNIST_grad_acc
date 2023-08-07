@@ -13,6 +13,8 @@ output_path = './outputs'
 input_size = 28
 bn_or_gn = 'bn'
 bn_or_gn = 'gn'
+en_checkpointing = False
+# en_checkpointing = True
 
 # Hyperparameters
 learning_rate = 0.001
@@ -20,6 +22,7 @@ n_epochs = 2
 num_workers = 1
 
 # input_expand_ratios = [ 1, 2, 4, 8, 16, 32, 64 ]
+# input_expand_ratios = [ 1, 2, 4, 8, 16]
 input_expand_ratios = [2] # 1, 2, 4, 8, 16, 32, 64
 
 # batch_sizes = [  256,
@@ -66,11 +69,28 @@ if __name__ == '__main__':
                                                                                                         num_workers,
                                                                                                         batch_sizes,
                                                                                                         bn_or_gn,
+                                                                                                        en_checkpointing,
                                                                                                         optimizing_batches,
                                                                                                         optimizer_types,
                                                                                                         event_start_read_GPU_info,
                                                                                                         queue_gpu_info,
                                                                                                         queue_training_results, ) )
+    
+    # MNIST_train_test_grad_acc_3.train_and_test(
+    #                                                 data_path,
+    #                                                 input_size,
+    #                                                 input_expand_ratios,
+    #                                                 learning_rate,
+    #                                                 n_epochs,
+    #                                                 num_workers,
+    #                                                 batch_sizes,
+    #                                                 bn_or_gn,
+    #                                                 en_checkpointing,
+    #                                                 optimizing_batches,
+    #                                                 optimizer_types,
+    #                                                 event_start_read_GPU_info,
+    #                                                 queue_gpu_info,
+    #                                                 queue_training_results, )
 
     # Start the threads
     gpu_thread.start()
