@@ -6,7 +6,7 @@ import time
 
 def plot_GPU_mem_used( output_path, input_size, input_expand_ratios, batch_sizes, optimizing_batches, optimizer_types, gpu_mem_usage, device_name, device_mem_cap):
     
-    gpu_mem_usage_mean_of_epochs = gpu_mem_usage.mean(axis=1)
+    gpu_mem_usage_max_of_epochs = gpu_mem_usage.max(axis=1)
     
     x = np.arange(len(batch_sizes), 0, -1)
     
@@ -25,7 +25,7 @@ def plot_GPU_mem_used( output_path, input_size, input_expand_ratios, batch_sizes
             x_lines.append( x )        
             y_line = []
             for j in range( len(batch_sizes) ):
-                y_line.append( sum( gpu_mem_usage_mean_of_epochs[ list_ind : list_ind+len(optimizing_batches[j]) ] ) / len( optimizing_batches[j] ) )
+                y_line.append( max( gpu_mem_usage_max_of_epochs[ list_ind : list_ind+len(optimizing_batches[j]) ] ) )
                 list_ind = list_ind + len( optimizing_batches[j] )
             y_lines.append( y_line )        
             legend_names.append( str(input_ress[i]) + 'x' + str(input_ress[i]) )

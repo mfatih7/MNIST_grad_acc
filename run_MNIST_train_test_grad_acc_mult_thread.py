@@ -14,7 +14,7 @@ input_size = 28
 bn_or_gn = 'bn'
 bn_or_gn = 'gn'
 en_grad_checkpointing = False
-# en_grad_checkpointing = True
+en_grad_checkpointing = True
 
 # Hyperparameters
 learning_rate = 0.001
