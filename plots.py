@@ -66,59 +66,51 @@ def plot_GPU_mem_used( output_path, input_size, training_params, optimizer_types
         if not os.path.exists( folder_path ):
             os.makedirs(folder_path)            
         plt.savefig( os.path.join(folder_path, plot_file_name), dpi=300)            
-            
-        
-        # input_ress = [str(input_size*input_expand_ratio) for input_expand_ratio in input_expand_ratios]
-        
-        
-        # for i in range( len(input_expand_ratios) ):
-        #     x_lines.append( x )        
-        #     y_line = []
-        #     for j in range( len(batch_sizes) ):
-        #         y_line.append( max( gpu_mem_usage_max_of_epochs[ list_ind : list_ind+len(optimizing_batches[j]) ] ) )
-        #         list_ind = list_ind + len( optimizing_batches[j] )
-        #     y_lines.append( y_line )        
-        #     legend_names.append( str(input_ress[i]) + 'x' + str(input_ress[i]) )
-        
-        # for x_line, y_line, legend_name in zip(x_lines, y_lines, legend_names):
-        #     plt.plot(x_line, y_line, label=legend_name, marker='o')
-            
-        # plt.grid(True)
-        # plt.legend(title='Inpu Size', fontsize = 'small')
-        # plt.ylabel('Average GPU Memory Usage')
-        # plt.xlabel('Batch')
-        # plt.title( device_name + ' ' + str(device_mem_cap) + ' MB ' + optimizer_type + ' opt' )
-        
-        # plt.xticks( x, [str(batch_size) for batch_size in batch_sizes] )
-        
-        # plot_file_name = 'gpu_mem_usage' + optimizer_type + '.png'
-        # folder_path = os.path.join(output_path, device_name)
-        # if not os.path.exists( folder_path ):
-        #     os.makedirs(folder_path)            
-        # plt.savefig( os.path.join(folder_path, plot_file_name), dpi=300)
-    
-def plot_train_time( output_path, input_size, input_expand_ratios, batch_sizes, optimizing_batches, optimizer_types, train_time, device_name, device_mem_cap):
+
+def plot_train_time( output_path, input_size, training_params, optimizer_types, train_time, device_name, device_mem_cap):
     
     train_time_mean = train_time.mean(axis=1)
     
-    x = np.arange(len(batch_sizes), 0, -1)
-    list_ind = 0
-    for input_expand_ratio in input_expand_ratios:
-        for optimizer_type in optimizer_types:
+    train_time_mean = train_time_mean.reshape(-1, len(optimizer_types) )
+    
+    input_expand_ratios = []
+    batch_sizes = []
+    optimizing_batches = []
+    for training_param in training_params:
+        input_expand_ratios.append(training_param[0])
+        batch_sizes.append(training_param[1])
+        optimizing_batches.append(training_param[2])
+    input_expand_ratios = sorted( list( set(input_expand_ratios) ) )
+    batch_sizes = sorted( list( set(batch_sizes) ) )
+    optimizing_batches = sorted( list( set(optimizing_batches) ) )
+    
+    for optimizer_type_id, optimizer_type in enumerate(optimizer_types):
+        list_ind = 0
+        for input_expand_ratio in reversed(input_expand_ratios):
             plt.figure()
             
             input_res = input_size * input_expand_ratio
-                
+            
             x_lines = []
             y_lines = []
             legend_names = []            
             
-            for i in range( len(batch_sizes)):
-                x_lines.append( x[ : i+1 ] )        
-                y_lines.append( train_time_mean[ list_ind : list_ind + len( optimizing_batches[i] ) ] )
-                list_ind = list_ind + len( optimizing_batches[i] )        
-                legend_names.append( str(batch_sizes[i]) )
-            
+            while( list_ind < train_time_mean.shape[0] and training_params[list_ind][0] == input_expand_ratio):
+                
+                x_line = []
+                y_line = []
+                
+                cur_batch = training_params[list_ind][1]
+                
+                while( list_ind < train_time_mean.shape[0] and training_params[list_ind][1] == cur_batch):
+                    x_line.append( optimizing_batches.index(training_params[list_ind][2]) )
+                    y_line.append( train_time_mean[list_ind,optimizer_type_id] )
+                    list_ind = list_ind + 1
+                
+                x_lines.append(x_line)
+                y_lines.append(y_line)
+                legend_names.append(str(cur_batch))
+                
             for x_line, y_line, legend_name in zip(x_lines, y_lines, legend_names):
                 plt.plot(x_line, y_line, label=legend_name, marker='o')
                 
@@ -128,7 +120,7 @@ def plot_train_time( output_path, input_size, input_expand_ratios, batch_sizes, 
             plt.xlabel('Optimizing Batch')
             plt.title( device_name + ' ' + str(device_mem_cap) + ' MB ' + str(input_res) + 'x' + str(input_res) + ' in ' + optimizer_type + ' opt' )
             
-            plt.xticks( x, [str(batch_size) for batch_size in batch_sizes] )
+            plt.xticks( range(len(optimizing_batches)), [str(optimizing_batch) for optimizing_batch in optimizing_batches] )
             
             plot_file_name = 'gpu_mem_usage' + '_' + str(input_res) + 'x' + str(input_res) + '_' + optimizer_type + '.png'
             folder_path = os.path.join(output_path, device_name)

@@ -39,7 +39,16 @@ train_gpu_mem_usage = np.array( [ [101, 102], [103, 104], [105, 106], [107, 108]
                                   [133, 134], [135, 136], [137, 138], [139, 140],
                                   [141, 142], [143, 144], [145, 146], [147, 148],] )
 
+train_time_vec = np.array( [ [101, 102], [103, 104], [105, 106], [107, 108],
+                                  [109, 110], [111, 112], [113, 114], [115, 116],
+                                  [117, 118], [119, 120], [121, 122], [123, 124],
+                                  [125, 126], [127, 128], [129, 130], [131, 132],
+                                  [133, 134], [135, 136], [137, 138], [139, 140],
+                                  [141, 142], [143, 144], [145, 146], [147, 148],] )
+
 device_name = 'asd'
 device_mem_cap = 4000
 
-plot_GPU_mem_used( output_path, input_size, training_params, optimizer_types, train_gpu_mem_usage, device_name, device_mem_cap)
+# plot_GPU_mem_used( output_path, input_size, training_params, optimizer_types, train_gpu_mem_usage, device_name, device_mem_cap)
+plot_train_time( output_path, input_size, training_params, optimizer_types, train_time_vec, device_name, device_mem_cap)
+
