@@ -21,33 +21,58 @@ learning_rate = 0.001
 n_epochs = 2
 num_workers = 1
 
-# input_expand_ratios = [ 1, 2, 4, 8, 16, 32, 64 ]
-# input_expand_ratios = [ 1, 2, 4, 8, 16]
-input_expand_ratios = [2] # 1, 2, 4, 8, 16, 32, 64
+# training_params -> [input_expand_ratios, batch_sizes, optimizing_batches]
 
-# batch_sizes = [  256,
-#                  128, 
-#                   64,
-#                   32,
-#                   16,
-#                    8,
-#                    4,  ]
-
-# optimizing_batches = [  [  2**0,  ], 
-#                         [  2**0,  2**1,  ],
-#                         [  2**0,  2**1,  2**2,  ], 
-#                         [  2**0,  2**1,  2**2,  2**3,  ], 
-#                         [  2**0,  2**1,  2**2,  2**3,  2**4,  ], 
-#                         [  2**0,  2**1,  2**2,  2**3,  2**4,  2**5,  ],
-#                         [  2**0,  2**1,  2**2,  2**3,  2**4,  2**5,  2**6,  ],  ]
-
-batch_sizes = [  128,
-                 16,
-                 2,  ]
-
-optimizing_batches = [  [  2**0,  ], 
-                        [  2**0,  2**3,  ],
-                        [  2**0,  2**3,  2**6,  ],  ]
+# training_params = [ 
+#                     [64, 64, 1], 
+#                     [64, 32, 1],[64, 32, 2],
+#                     [64, 16, 1],[64, 16, 2],[64, 16, 4],
+#                     [64,  8, 1],[64,  8, 2],[64,  8, 4],[64,  8, 8],
+#                     [64,  4, 1],[64,  4, 2],[64,  4, 4],[64,  4, 8],[64,  4,16],
+                    
+#                     [32,256, 1],
+#                     [32,128, 1],[32,128, 2],
+#                     [32, 64, 1],[32, 64, 2],[32, 64, 4],
+#                     [32, 32, 1],[32, 32, 2],[32, 32, 4],[32, 32, 8],
+#                     [32, 16, 1],[32, 16, 2],[32, 16, 4],[32, 16, 8],[32, 16,16],
+#                     [32,  8, 1],[32,  8, 2],[32,  8, 4],[32,  8, 8],[32,  8,16],[32,  8,32],
+#                     [32,  4, 1],[32,  4, 2],[32,  4, 4],[32,  4, 8],[32,  4,16],[32,  4,32],[32,  4,64],
+                    
+#                     [16,256, 1],
+#                     [16,128, 1],[16,128, 2],
+#                     [16, 64, 1],[16, 64, 2],[16, 64, 4],
+#                     [16, 32, 1],[16, 32, 2],[16, 32, 4],[16, 32, 8],
+#                     [16, 16, 1],[16, 16, 2],[16, 16, 4],[16, 16, 8],[16, 16,16],
+#                     [16,  8, 1],[16,  8, 2],[16,  8, 4],[16,  8, 8],[16,  8,16],[16,  8,32],
+#                     [16,  4, 1],[16,  4, 2],[16,  4, 4],[16,  4, 8],[16,  4,16],[16,  4,32],[16,  4,64],
+                    
+#                     [ 8,256, 1],
+#                     [ 8,128, 1],[ 8,128, 2],
+#                     [ 8, 64, 1],[ 8, 64, 2],[ 8, 64, 4],
+#                     [ 8, 32, 1],[ 8, 32, 2],[ 8, 32, 4],[ 8, 32, 8],
+#                     [ 8, 16, 1],[ 8, 16, 2],[ 8, 16, 4],[ 8, 16, 8],[ 8, 16,16],
+#                     [ 8,  8, 1],[ 8,  8, 2],[ 8,  8, 4],[ 8,  8, 8],[ 8,  8,16],[ 8,  8,32],
+#                     [ 8,  4, 1],[ 8,  4, 2],[ 8,  4, 4],[ 8,  4, 8],[ 8,  4,16],[ 8,  4,32],[ 8,  4,64],
+                    
+#                     [ 4,256, 1],
+#                     [ 4,128, 1],[ 4,128, 2],
+#                     [ 4, 64, 1],[ 4, 64, 2],[ 4, 64, 4],
+#                     [ 4, 32, 1],[ 4, 32, 2],[ 4, 32, 4],[ 4, 32, 8],
+#                     [ 4, 16, 1],[ 4, 16, 2],[ 4, 16, 4],[ 4, 16, 8],[ 4, 16,16],
+#                     [ 4,  8, 1],[ 4,  8, 2],[ 4,  8, 4],[ 4,  8, 8],[ 4,  8,16],[ 4,  8,32],
+#                     [ 4,  4, 1],[ 4,  4, 2],[ 4,  4, 4],[ 4,  4, 8],[ 4,  4,16],[ 4,  4,32],[ 4,  4,64],
+#                   ]
+    
+    
+training_params = [
+                    [4,128, 1], 
+                    [4, 16, 1],[4, 16, 8],
+                    [4,  2, 1],[4,  2, 8],[4,  2,16],                
+    
+                    [2,128, 1], 
+                    [2, 16, 1],[2, 16, 8],
+                    [2,  2, 1],[2,  2, 8],[2,  2,16],
+                  ]
 
 # optimizer_types = ['SGD', 'ADAM']
 optimizer_types = ['ADAM']
@@ -63,30 +88,25 @@ if __name__ == '__main__':
     training_thread = threading.Thread( target = MNIST_train_test_grad_acc_3.train_and_test, args=(
                                                                                                         data_path,
                                                                                                         input_size,
-                                                                                                        input_expand_ratios,
                                                                                                         learning_rate,
                                                                                                         n_epochs,
                                                                                                         num_workers,
-                                                                                                        batch_sizes,
                                                                                                         bn_or_gn,
                                                                                                         en_grad_checkpointing,
-                                                                                                        optimizing_batches,
+                                                                                                        training_params,
                                                                                                         optimizer_types,
                                                                                                         event_start_read_GPU_info,
                                                                                                         queue_gpu_info,
                                                                                                         queue_training_results, ) )
-    
-    # MNIST_train_test_grad_acc_3.train_and_test(
-    #                                                 data_path,
+
+    # MNIST_train_test_grad_acc_3.train_and_test(     data_path,
     #                                                 input_size,
-    #                                                 input_expand_ratios,
     #                                                 learning_rate,
     #                                                 n_epochs,
     #                                                 num_workers,
-    #                                                 batch_sizes,
     #                                                 bn_or_gn,
     #                                                 en_grad_checkpointing,
-    #                                                 optimizing_batches,
+    #                                                 training_params,
     #                                                 optimizer_types,
     #                                                 event_start_read_GPU_info,
     #                                                 queue_gpu_info,
@@ -113,7 +133,7 @@ if __name__ == '__main__':
     device_name         = training_results[8]
     device_mem_cap      = training_results[9]
     
-    plot_GPU_mem_used( output_path, input_size, input_expand_ratios, batch_sizes, optimizing_batches, optimizer_types, train_gpu_mem_usage, device_name, device_mem_cap)
-    plot_train_time( output_path, input_size, input_expand_ratios, batch_sizes, optimizing_batches, optimizer_types, train_time_vec, device_name, device_mem_cap)
+    plot_GPU_mem_used( output_path, input_size, training_params, optimizer_types, train_gpu_mem_usage, device_name, device_mem_cap)
+    # plot_train_time( output_path, input_size, input_expand_ratios, batch_sizes, optimizing_batches, optimizer_types, train_time_vec, device_name, device_mem_cap)
         
     
