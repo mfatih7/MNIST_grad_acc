@@ -57,7 +57,7 @@ def plot_GPU_mem_used( output_path, input_size, training_params, optimizer_types
         plt.legend(title='Input Size', fontsize = 'small')
         plt.ylabel('Average GPU Memory Usage')
         plt.xlabel('Batch')
-        plt.title( device_name + ' ' + str(device_mem_cap) + ' MB ' + optimizer_type + ' opt' )
+        plt.title( device_name + ' ' + str(device_mem_cap) + ' MB_' + optimizer_type + ' opt' )
         
         plt.xticks( range(len(x_ticks)), [str(x_tick) for x_tick in x_ticks] )
         
@@ -120,7 +120,7 @@ def plot_GPU_util( output_path, input_size, training_params, optimizer_types, gp
         plt.legend(title='Input Size', fontsize = 'small')
         plt.ylabel('Average GPU Util')
         plt.xlabel('Batch')
-        plt.title( device_name + ' ' + str(device_mem_cap) + ' MB ' + optimizer_type + ' opt' )
+        plt.title( device_name + ' ' + str(device_mem_cap) + ' MB_' + optimizer_type + ' opt' )
         
         plt.xticks( range(len(x_ticks)), [str(x_tick) for x_tick in x_ticks] )
         
