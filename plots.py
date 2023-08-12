@@ -179,7 +179,7 @@ def plot_train_time( output_path, input_size, training_params, optimizer_types, 
                 
             plt.grid(True)
             plt.legend(title='Batch', fontsize = 'small')
-            plt.ylabel('Average Training Time(sec)')
+            plt.ylabel('Average Training Time/Epoch (sec)')
             plt.xlabel('Optimizing Batch')
             plt.title( device_name + ' ' + str(device_mem_cap) + ' MB ' + str(input_res) + 'x' + str(input_res) + ' in ' + optimizer_type + ' opt' )
             
