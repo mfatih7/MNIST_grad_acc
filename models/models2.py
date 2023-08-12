@@ -109,6 +109,10 @@ class CNN_Basic_28(nn.Module):
         x = self.Conv2d_N_REL_4(x)
         x = self.Conv2d_N_REL_5(x)
         
+        x = x.view( -1, 96 * 1 * 1 )
+        x = self.non_lin( self.fc1(x) )
+        x = self.fc2(x)
+        
         return x
 
     def block_2(self, x):
@@ -120,6 +124,11 @@ class CNN_Basic_28(nn.Module):
         x = self.Conv2d_N_REL_3(x)
         x = self.Conv2d_N_REL_4(x)
         x = self.Conv2d_N_REL_5(x)
+        
+        x = x.view( -1, 96 * 1 * 1 )
+        x = self.non_lin( self.fc1(x) )
+        x = self.fc2(x)
+        
         return x
 
     def block_4(self, x):
@@ -132,6 +141,10 @@ class CNN_Basic_28(nn.Module):
         x = self.Conv2d_N_REL_3(x)
         x = self.Conv2d_N_REL_4(x)
         x = self.Conv2d_N_REL_5(x)
+        
+        x = x.view( -1, 96 * 1 * 1 )
+        x = self.non_lin( self.fc1(x) )
+        x = self.fc2(x)
         
         return x
     
@@ -147,6 +160,10 @@ class CNN_Basic_28(nn.Module):
         x = self.Conv2d_N_REL_4(x)
         x = self.Conv2d_N_REL_5(x)
         
+        x = x.view( -1, 96 * 1 * 1 )
+        x = self.non_lin( self.fc1(x) )
+        x = self.fc2(x)
+        
         return x
 
     def block_16(self, x):
@@ -161,6 +178,10 @@ class CNN_Basic_28(nn.Module):
         x = self.Conv2d_N_REL_3(x)
         x = self.Conv2d_N_REL_4(x)
         x = self.Conv2d_N_REL_5(x)
+        
+        x = x.view( -1, 96 * 1 * 1 )
+        x = self.non_lin( self.fc1(x) )
+        x = self.fc2(x)
         
         return x
 
@@ -178,6 +199,10 @@ class CNN_Basic_28(nn.Module):
         x = self.Conv2d_N_REL_4(x)
         x = self.Conv2d_N_REL_5(x)
         
+        x = x.view( -1, 96 * 1 * 1 )
+        x = self.non_lin( self.fc1(x) )
+        x = self.fc2(x)
+        
         return x
     
     def block_64(self, x):
@@ -193,7 +218,11 @@ class CNN_Basic_28(nn.Module):
         x = self.Conv2d_N_REL_2(x)
         x = self.Conv2d_N_REL_3(x)
         x = self.Conv2d_N_REL_4(x)
-        x = self.Conv2d_N_REL_5(x)    
+        x = self.Conv2d_N_REL_5(x)
+        
+        x = x.view( -1, 96 * 1 * 1 )
+        x = self.non_lin( self.fc1(x) )
+        x = self.fc2(x)
         
         return x
     
@@ -212,6 +241,10 @@ class CNN_Basic_28(nn.Module):
         x = self.Conv2d_N_REL_3(x)
         x = self.Conv2d_N_REL_4(x)
         x = self.Conv2d_N_REL_5(x)
+        
+        x = x.view( -1, 96 * 1 * 1 )
+        x = self.non_lin( self.fc1(x) )
+        x = self.fc2(x)
         
         return x
             
@@ -252,10 +285,6 @@ class CNN_Basic_28(nn.Module):
                 x = checkpoint( self.block_64, x )
             elif( self.input_expand_ratio == 128 ):
                 x = checkpoint( self.block_128, x )
-                
-        x = x.view( -1, 96 * 1 * 1 )
-        x = self.non_lin( self.fc1(x) )
-        x = self.fc2(x)
         
         return x
 

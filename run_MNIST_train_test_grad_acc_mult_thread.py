@@ -129,6 +129,12 @@ training_params = [
                     [2,  2, 1],[2,  2, 8],[2, 2, 64],
                   ]
 
+training_params = [
+                    [16, 32, 1],
+                    [16,  8, 1],[16,  8, 4],
+                    [16,  2, 1],[16,  2, 4],[16, 2, 16],
+                  ]
+
 # optimizer_types = ['SGD', 'ADAM']
 optimizer_types = ['ADAM']
 
