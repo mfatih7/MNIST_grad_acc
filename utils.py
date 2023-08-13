@@ -1,7 +1,9 @@
 import torch
 import subprocess
 import time
-# import gc
+import os
+
+#import gc
     
 def print_gpu_info():
     
@@ -68,6 +70,14 @@ def get_info_from_GPU_queue( queue_gpu_info, event_start_read_GPU_info):
         return(device_name, device_mem_cap, gpu_mem_usage, gpu_util)
     else:
         return None
+    
+def save_results_as_checkpoint(output_path, device_name, training_params, optimizer_types, train_gpu_mem_usage):    
+    folder_path = os.path.join(output_path, device_name)
+    if not os.path.exists( folder_path ):
+        os.makedirs(folder_path) 
+    torch.save({ 'training_params': training_params,
+                 'optimizer_types': optimizer_types,
+                 'train_gpu_mem_usage': train_gpu_mem_usage, }, os.path.join(folder_path, 'checkpoint.pth'))
 
 if __name__ == '__main__':
     while True:
