@@ -1,7 +1,21 @@
-# MNIST DATASET GRADIENT ACCUMULATION AND
-# GRADIENT CHECKPOINTING TRAINING PERFORMANCE
+# Examining Effects of Gradient Accumulation and Gradient Checkpointing on GPU Memory Usage, GPU Utilization, and Training Time
 
-##  WITHOUT GRADIENT CHECKPOINTING		WITH GRADIENT CHECKPOINTING
+Gradient Accumulation and Gradient Checkpointing are among the methods used to limit GPU memory usage during training.
+
+
+In order to take advantage of these methods, one needs to sacrifice training time.
+
+
+This project investigates the effects of Gradient Accumulation and Gradient Checkpointing on different parameters.
+
+
+The project is implemented with Pytorch and all of the source code and results are shared.
+
+
+<!-- Blank line -->
+<!-- Blank line -->
+
+## --Without Gradient Checkpointing------With Gradient Checkpointing------
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/gpu_mem_usageADAM.png" width="400" />  
