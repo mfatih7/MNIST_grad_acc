@@ -185,7 +185,7 @@ def plot_train_time( output_path, input_size, training_params, optimizer_types, 
             
             plt.xticks( range(len(optimizing_batches)), [str(optimizing_batch) for optimizing_batch in optimizing_batches] )
             
-            plot_file_name = 'gpu_mem_usage' + '_' + str(input_res) + 'x' + str(input_res) + '_' + optimizer_type + '.png'
+            plot_file_name = 'training_time' + '_' + str(input_res) + 'x' + str(input_res) + '_' + optimizer_type + '.png'
             folder_path = os.path.join(output_path, device_name)
             if not os.path.exists( folder_path ):
                 os.makedirs(folder_path)            
