@@ -21,7 +21,7 @@ The project is implemented with Pytorch 2.0.1 and all of the source code and res
 The run is performed in 2 parallel threads, while one of the threads performs training the other thread observes GPU status.
 
 
-4 data loaders are used to feed GPU with input data.
+4 data loaders are used to feed GPUs with input data.
 
 
 <!-- Blank line -->
