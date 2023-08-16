@@ -9,6 +9,12 @@ In order to take advantage of these methods, one needs to sacrifice training tim
 This project investigates the effects of Gradient Accumulation and Gradient Checkpointing on different parameters.
 
 
+MNIST dataset is used as input and the size of the input images is increased to pressure GPU memory capacity.
+
+
+The accuracy of the models is not presented since it is out of the scope of the project.
+
+
 The project is implemented with Pytorch and all of the source code and results are shared.
 
 
