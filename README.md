@@ -17,6 +17,8 @@ The accuracy of the models is not presented since it is out of the scope of the 
 
 The project is implemented with Pytorch and all of the source code and results are shared.
 
+The run is performed in 2 parallel threads, while one of the threads performs training the other thread observes GPU status.
+
 
 <!-- Blank line -->
 <!-- Blank line -->
