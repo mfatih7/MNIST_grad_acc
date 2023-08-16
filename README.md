@@ -39,6 +39,42 @@
   <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 3070 Ti/training_time_224x224_ADAM.png" width="400" />
 </p>
 
+<p float="left">
+  <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_448x448_ADAM.png" width="400" />
+</p>
+
+<p float="left">
+  <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 3070 Ti/training_time_448x448_ADAM.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 3070 Ti/training_time_448x448_ADAM.png" width="400" />
+</p>
+
+<p float="left">
+  <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_896x896_ADAM.png" width="400" />
+</p>
+
+<p float="left">
+  <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 3070 Ti/training_time_896x896_ADAM.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 3070 Ti/training_time_896x896_ADAM.png" width="400" />
+</p>
+
+<p float="left">
+  <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_1792x1792_ADAM.png" width="400" />
+</p>
+
+<p float="left">
+  <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 3070 Ti/training_time_1792x1792_ADAM.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 3070 Ti/training_time_1792x1792_ADAM.png" width="400" />
+</p>
+
+<p float="left">
+  <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_3584x3584_ADAM.png" width="400" />
+</p>
+
+<p float="left">
+  <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 3070 Ti/training_time_3584x3584_ADAM.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 3070 Ti/training_time_3584x3584_ADAM.png" width="400" />
+</p>
+
 
 
 
