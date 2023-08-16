@@ -1,5 +1,4 @@
-# import MNIST_train_test_grad_acc
-import MNIST_train_test_grad_acc_3
+import MNIST_train_test_grad_acc
 
 import threading
 import queue
@@ -136,8 +135,8 @@ training_params = [
 #                     [16,  2, 1],[16,  2, 4],[16, 2, 16],
 #                   ]
 
-# optimizer_types = ['SGD', 'ADAM']
-optimizer_types = ['ADAM']
+optimizer_types = ['SGD', 'ADAM']
+# optimizer_types = ['ADAM']
 
     
 if __name__ == '__main__':
@@ -147,7 +146,7 @@ if __name__ == '__main__':
     queue_training_results = queue.Queue()
     
     gpu_thread = threading.Thread( target = get_info, daemon=True, args=(event_start_read_GPU_info, queue_gpu_info,) ) 
-    training_thread = threading.Thread( target = MNIST_train_test_grad_acc_3.train_and_test, args=(
+    training_thread = threading.Thread( target = MNIST_train_test_grad_acc.train_and_test, args=(
                                                                                                         data_path,
                                                                                                         input_size,
                                                                                                         learning_rate,
@@ -161,7 +160,7 @@ if __name__ == '__main__':
                                                                                                         queue_gpu_info,
                                                                                                         queue_training_results, ) )
 
-    # MNIST_train_test_grad_acc_3.train_and_test(     data_path,
+    # MNIST_train_test_grad_acc.train_and_test(     data_path,
     #                                                 input_size,
     #                                                 learning_rate,
     #                                                 n_epochs,
