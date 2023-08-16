@@ -15,7 +15,8 @@ MNIST dataset is used as input and the size of the input images is increased to 
 The accuracy of the models is not presented since it is out of the scope of the project.
 
 
-The project is implemented with Pytorch and all of the source code and results are shared.
+The project is implemented with Pytorch 2.0.1 and all of the source code and results are shared.
+
 
 The run is performed in 2 parallel threads, while one of the threads performs training the other thread observes GPU status.
 
