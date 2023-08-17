@@ -31,6 +31,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/gpu_mem_usageADAM.png" width="400" />  
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/gpu_mem_usageADAM.png" width="400" />  
 </p>
 
 <p float="left">
@@ -40,6 +41,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/gpu_utilADAM.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/gpu_utilADAM.png" width="400" />  
 </p>
 
 <p float="left">
@@ -49,6 +51,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_112x112_ADAM.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_112x112_ADAM.png" width="400" />  
 </p>
 
 <p float="left">
@@ -58,6 +61,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_224x224_ADAM.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_224x224_ADAM.png" width="400" />  
 </p>
 
 <p float="left">
@@ -67,6 +71,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_448x448_ADAM.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_448x448_ADAM.png" width="400" />  
 </p>
 
 <p float="left">
@@ -76,6 +81,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_896x896_ADAM.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_896x896_ADAM.png" width="400" />  
 </p>
 
 <p float="left">
@@ -85,6 +91,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_1792x1792_ADAM.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_1792x1792_ADAM.png" width="400" />  
 </p>
 
 <p float="left">
@@ -94,6 +101,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_3584x3584_ADAM.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_3584x3584_ADAM.png" width="400" />  
 </p>
 
 <p float="left">
@@ -107,6 +115,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/gpu_mem_usageSGD.png" width="400" />  
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/gpu_mem_usageSGD.png" width="400" /> 
 </p>
 
 <p float="left">
@@ -116,6 +125,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/gpu_utilSGD.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/gpu_utilSGD.png" width="400" /> 
 </p>
 
 <p float="left">
@@ -125,6 +135,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_112x112_SGD.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_112x112_SGD.png" width="400" /> 
 </p>
 
 <p float="left">
@@ -134,6 +145,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_224x224_SGD.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_224x224_SGD.png" width="400" /> 
 </p>
 
 <p float="left">
@@ -143,6 +155,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_448x448_SGD.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_448x448_SGD.png" width="400" /> 
 </p>
 
 <p float="left">
@@ -152,6 +165,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_896x896_SGD.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_896x896_SGD.png" width="400" /> 
 </p>
 
 <p float="left">
@@ -161,6 +175,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_1792x1792_SGD.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_1792x1792_SGD.png" width="400" /> 
 </p>
 
 <p float="left">
@@ -170,6 +185,7 @@ The run is performed in 2 parallel threads, while one of the threads performs tr
 
 <p float="left">
   <img src="/00_github_media/dis_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_3584x3584_SGD.png" width="400" />
+  <img src="/00_github_media/en_grad_checkpointing/NVIDIA GeForce RTX 2070/training_time_3584x3584_SGD.png" width="400" /> 
 </p>
 
 <p float="left">
